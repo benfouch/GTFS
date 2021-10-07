@@ -4,6 +4,7 @@
  * @author zuberih
  * @version 1.0
  * @created 07-Oct-2021 11:02:27 AM
+ * I will be
  */
 public class TransitData implements Subject {
 
@@ -121,7 +122,7 @@ public class TransitData implements Subject {
 	 * 
 	 * @param files
 	 */
-	public boolean uploadFile(file files){
+	public boolean uploadFiles(Path path){
 		return false;
 	}
 
