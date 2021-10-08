@@ -1,5 +1,5 @@
-
-
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 /**
  * @author zuberih
  * @version 1.0
@@ -7,16 +7,40 @@
  */
 public class MainGUI {
 
-	private button EditTransitTable();
-	private button OpenMap();
-	private button OpenTransitTable();
-	private button UploadFiles();
+	@FXML
+	private Button EditTransitTable;
+	@FXML
+	private Button OpenMap;
+	@FXML
+	private Button OpenTransitTable;
+	@FXML
+	private Button UploadFiles;
 
 	public MainGUI(){
 
 	}
 
 	public void finalize() throws Throwable {
+
+	}
+
+	@FXML
+	public void importFiles(){
+
+	}
+
+	@FXML
+	public void editTable(){
+
+	}
+
+	@FXML
+	public void openTable(){
+
+	}
+
+	@FXML
+	public void openMap(){
 
 	}
 

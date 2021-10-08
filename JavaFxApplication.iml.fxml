@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainGUI">
+   <children>
+      <HBox layoutX="-1.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="184.0">
+               <children>
+                  <Button fx:id="UploadFiles" mnemonicParsing="false" onAction="#importFiles" prefHeight="46.0" prefWidth="120.0" text="Import Files">
+                     <VBox.margin>
+                        <Insets bottom="30.0" top="30.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="EditTransitTable" mnemonicParsing="false" onAction="#editTable" prefHeight="46.0" prefWidth="120.0" text="Edit Transit Table">
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="OpenTransitTable" mnemonicParsing="false" onAction="#openTable" prefHeight="46.0" prefWidth="120.0" text="Open Transit Table">
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="OpenMap" mnemonicParsing="false" onAction="#openMap" prefHeight="46.0" prefWidth="120.0" text="Open Map">
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <TextArea prefHeight="400.0" prefWidth="417.0" />
+         </children>
+      </HBox>
+   </children>
+</Pane>
