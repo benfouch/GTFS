@@ -7,7 +7,7 @@
  */
 public interface Observer {
 
-	public Subject subject;
+	public Subject subject = null;
 
 	public void notifyObserver();
 

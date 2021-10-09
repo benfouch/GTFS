@@ -1,4 +1,5 @@
-
+import java.*;
+import java.util.List;
 
 /**
  * @author zuberih
@@ -7,7 +8,7 @@
  */
 public interface Subject {
 
-	public List<Observer> observers;
+	public List<Observer> observers = null;
 
 	/**
 	 * 
