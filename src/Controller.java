@@ -1,8 +1,11 @@
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
 /**
@@ -39,15 +42,35 @@ public class Controller {
 	}
 
 	public boolean uploadFiles(){
-		// Replace with showing a file explorer and taking the file they choose and giving it to the TransitData obj
-		File f = new File("C:\\GTFS Files\\routes.txt");
 
-		Path p = f.toPath();
-		if (TD.uploadFiles(p)){
-			textArea.setText(TD.routes.toString());
+		boolean success;
+		File file;
+		FileChooser fileChooser = new FileChooser();
+		file = fileChooser.showOpenDialog(null);
+		System.out.println(file.toPath());
+		System.out.println(file.getName());
+		if(file == null){
+			showAlert("File Not Found");
+			success = false;
 		}
+		else if(!file.toString().endsWith(".txt")){
+			showAlert("File must end in \".txt\"");
+			success = false;
+		}
+		else {
+			Path p = file.toPath();
+			if (TD.uploadFiles(p)){
+				textArea.setText(TD.routes.toString());
+				success = true;
+			} else {
+				success = false;
+			}
+		}
+		return success;
+	}
 
-		return false;
+	public void showAlert(String message){
+		JOptionPane.showMessageDialog(null, message);
 	}
 
 }
