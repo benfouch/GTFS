@@ -1,6 +1,14 @@
+/*
+ * Course: CS2030
+ * Fall 2021
+ * Lab 5
+ * Name: Team F
+ * Created: 07-Oct-2021
+ */
 
 
 /**
+ * An Object to make data management easier
  * @author Ben Fouch
  * @version 1.0
  * @created 07-Oct-2021 11:02:19 AM
@@ -25,14 +33,19 @@ public class Route {
 		this.route_short_name = route_short_name;
 		this.route_long_name = route_long_name;
 		this.route_desc = route_desc;
-		this.route_type = Integer.parseInt(route_type);
+		this.route_type = route_type.equals("") ? -1 : Integer.parseInt(route_type);
 		this.route_text_color = route_text_color;
 		this.route_color = route_color;
 		this.route_url = route_url;
 	}
 
+	/**
+	 * A better toString for the data dumb for lab 5
+	 * @return a text representation of the data in the route object
+	 */
 	public String toString(){
-		return "Route_id: " + route_id + "\n" +
+		return "From Routes: \n" +
+				"Route_id: " + route_id + "\n" +
 				"\tAgency_id: " + agency_id + "\n" +
 				"\tRoute_short_name: " + route_short_name + "\n" +
 				"\tRoute_long_name: " + route_long_name + "\n" +

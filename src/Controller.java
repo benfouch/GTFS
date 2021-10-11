@@ -1,14 +1,23 @@
+/*
+ * Course: CS2030
+ * Fall 2021
+ * Lab 5
+ * Name: Team F
+ * Created: 07-Oct-2021
+ */
+
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
+ * The Controller for the main gui
  * @author zuberih
  * @version 1.0
  * @created 07-Oct-2021 11:05:21 AM
@@ -41,23 +50,29 @@ public class Controller {
 		return false;
 	}
 
+	/**
+	 * Controller for the upload file button
+	 * Dumps the uploaded file to the screen after loading it in
+	 * @return true if the upload was successful
+	 */
 	public boolean uploadFiles(){
-
 		boolean success;
 		String filename;
 		int correct = 0;
-		java.util.List<File> files;
-		File file;
+		List<File> files;
 		FileChooser fileChooser = new FileChooser();
 		files = fileChooser.showOpenMultipleDialog(null);
-		for (File value : files) {
-			file = value;
+		// Stops trying to upload if nothing was picked
+		if (files == (null)){
+			return false;
+		}
+
+		for (File file : files) {
 			filename = file.getName();
 			System.out.println(file.toPath());
 			System.out.println(file.getName());
-			if (file == null) {
-				showAlert("File Not Found");
-			} else if (!file.toString().endsWith(".txt")) {
+
+			if (!file.toString().endsWith(".txt")) {
 				showAlert("File must end in \".txt\"");
 			} else {
 				Path p = file.toPath();

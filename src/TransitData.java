@@ -1,8 +1,15 @@
-
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+/*
+ * Course: CS2030
+ * Fall 2021
+ * Lab 5
+ * Name: Team F
+ * Created: 07-Oct-2021
+ */
 
 import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Scanner;
+
 
 /**
  * @author Ben Fouch
@@ -115,8 +122,8 @@ public class TransitData implements Subject {
 	}
 
 	/**
-	 * 
-	 * @param path
+	 * Saves in the File from specified path into the data structure of the program
+	 * @param path The path of the file being uploaded
 	 */
 	public boolean uploadFiles(Path path){
 		String[] pathList = path.toString().split("\\\\");
@@ -126,7 +133,7 @@ public class TransitData implements Subject {
 			case "routes.txt":
 				returnValue = saveRoutes(path);
 				break;
-			case "stop_time.txt":
+			case "stop_times.txt":
 				returnValue = saveStopTimes(path);
 				break;
 			case "stops.txt":
@@ -140,6 +147,11 @@ public class TransitData implements Subject {
 		return returnValue;
 	}
 
+	/**
+	 * Helper for uploading files
+	 * @param path the path of the file being uploaded
+	 * @return the success value of the loading in
+	 */
 	private boolean saveRoutes(Path path){
 		routes = new HashMap<String, Route>();
 		boolean firstLine = true;
@@ -168,6 +180,11 @@ public class TransitData implements Subject {
 		return true;
 	}
 
+	/**
+	 * Helper for uploading files
+	 * @param path the path of the file being uploaded
+	 * @return the success value of the loading in
+	 */
 	private boolean saveStopTimes(Path path){
 		stopTimes = new HashMap<Integer, StopTime>();
 		boolean firstLine = true;
@@ -190,12 +207,17 @@ public class TransitData implements Subject {
 			}
 
 		} catch (Exception e){
-			System.out.println("Error in <TransitData.saveRoutes()>");
+			System.out.println("Error in <TransitData.saveStopTimes()>");
 			return false;
 		}
 		return true;
 	}
 
+	/**
+	 * Helper for uploading files
+	 * @param path the path of the file being uploaded
+	 * @return the success value of the loading in
+	 */
 	private boolean saveStops(Path path){
 		stops = new HashMap<Integer, Stop>();
 		boolean firstLine = true;
@@ -217,12 +239,17 @@ public class TransitData implements Subject {
 			}
 
 		} catch (Exception e){
-			System.out.println("Error in <TransitData.saveRoutes()>");
+			System.out.println("Error in <TransitData.saveStops()>");
 			return false;
 		}
 		return true;
 	}
 
+	/**
+	 * Helper for uploading files
+	 * @param path the path of the file being uploaded
+	 * @return the success value of the loading in
+	 */
 	private boolean saveTrips(Path path){
 		trips = new HashMap<String, Trip>();
 		boolean firstLine = true;
@@ -245,7 +272,7 @@ public class TransitData implements Subject {
 			}
 
 		} catch (Exception e){
-			System.out.println("Error in <TransitData.saveRoutes()>");
+			System.out.println("Error in <TransitData.saveTrips()>");
 			return false;
 		}
 		return true;
