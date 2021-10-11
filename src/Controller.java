@@ -44,28 +44,41 @@ public class Controller {
 	public boolean uploadFiles(){
 
 		boolean success;
+		String filename;
+		int correct = 0;
+		java.util.List<File> files;
 		File file;
 		FileChooser fileChooser = new FileChooser();
-		file = fileChooser.showOpenDialog(null);
-		System.out.println(file.toPath());
-		System.out.println(file.getName());
-		if(file == null){
-			showAlert("File Not Found");
-			success = false;
-		}
-		else if(!file.toString().endsWith(".txt")){
-			showAlert("File must end in \".txt\"");
-			success = false;
-		}
-		else {
-			Path p = file.toPath();
-			if (TD.uploadFiles(p)){
-				textArea.setText(TD.routes.toString());
-				success = true;
+		files = fileChooser.showOpenMultipleDialog(null);
+		for (File value : files) {
+			file = value;
+			filename = file.getName();
+			System.out.println(file.toPath());
+			System.out.println(file.getName());
+			if (file == null) {
+				showAlert("File Not Found");
+			} else if (!file.toString().endsWith(".txt")) {
+				showAlert("File must end in \".txt\"");
 			} else {
-				success = false;
+				Path p = file.toPath();
+				if (TD.uploadFiles(p)) {
+					correct += 1;
+				}
+			}
+			if(filename.equals("routes.txt")) {
+				textArea.setText(TD.routes.toString());
+			}
+			if(filename.equals("stops.txt")) {
+				textArea.setText(TD.stops.toString());
+			}
+			if(filename.equals("stop_times.txt")) {
+				textArea.setText(TD.stopTimes.toString());
+			}
+			if(filename.equals("trips.txt")) {
+				textArea.setText(TD.trips.toString());
 			}
 		}
+		success = correct == files.size();
 		return success;
 	}
 
