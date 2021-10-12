@@ -8,6 +8,7 @@
 
 import java.sql.Time;
 import java.time.*;
+import java.util.List;
 
 /**
  * An Object to make data management easier
@@ -15,7 +16,7 @@ import java.time.*;
  * @version 1.0
  * @created 07-Oct-2021 11:02:23 AM
  */
-public class StopTime {
+public class StopTime implements GTFSData{
 
 	public Time arrival_time;
 	public Time departure_time;
@@ -26,17 +27,17 @@ public class StopTime {
 	public int stop_sequence;
 	public float trip_id;
 
-	public StopTime(String trip_id, String arrival_time,String departure_time, String stop_id,
-					String stop_sequence, String stop_headsign,String pickup_type,String drop_off_type) {
-		String trip_idString = !trip_id.equals("") ? trip_id.split("_")[0] + "." + trip_id.split("_")[1] : "";
+	public StopTime(List<String> params) {
+		int i = 0;
+		String trip_idString = !params.get(i).equals("") ? params.get(i).split("_")[0] + "." + params.get(i++).split("_")[1] : "";
 		this.trip_id = makeFloat(trip_idString);
-		this.arrival_time = arrival_time.equals("") ? null :Time.valueOf(arrival_time);
-		this.departure_time = departure_time.equals("") ? null :Time.valueOf(departure_time);
-		this.stop_id = (int)makeFloat(stop_id);
-		this.stop_sequence = (int)makeFloat(stop_sequence);
-		this.stop_headsign = (int)makeFloat(stop_headsign);
-		this.pickup_type = (int)makeFloat(pickup_type);
-		this.drop_off_type = (int)makeFloat(drop_off_type);
+		this.arrival_time = params.get(i).equals("") ? null :Time.valueOf(params.get(i++));
+		this.departure_time = params.get(i).equals("") ? null :Time.valueOf(params.get(i++));
+		this.stop_id = (int)makeFloat(params.get(i++));
+		this.stop_sequence = (int)makeFloat(params.get(i++));
+		this.pickup_type = (int)makeFloat(params.get(i++));
+		this.stop_headsign = (int)makeFloat(params.get(i++));
+		this.drop_off_type = (int)makeFloat(params.get(i));
 	}
 
 	/**
@@ -44,15 +45,20 @@ public class StopTime {
 	 * @return a text representation of the data in the stopTime object
 	 */
 	public String toString(){
-		return "From StopTimes: \n" +
-				"\ttrip_id: " + trip_id + "\n" +
-				"\tarrival_time: " + arrival_time + "\n" +
-				"\tdeparture_time: " + departure_time + "\n" +
-				"\tstop_id: " + stop_id + "\n" +
-				"\tstop_sequence: " + stop_sequence + "\n" +
-				"\tstop_headsign: " + stop_headsign + "\n" +
-				"\tpickup_type: " + pickup_type + "\n" +
-				"\tdrop_off_type: " + drop_off_type + "\n";
+		return trip_id + "," +
+				arrival_time + "," +
+				departure_time + "," +
+				stop_id + "," +
+				stop_sequence + "," +
+				pickup_type + "," +
+				stop_headsign + "," +
+				drop_off_type;
+	}
+
+	@Override
+	public String getHeader() {
+		return "trip_id,arrival_time,departure_time,stop_id,stop_sequence," +
+				"stop_headsign,pickup_type,drop_off_type\n";
 	}
 
 	/**
@@ -64,4 +70,8 @@ public class StopTime {
 		return value.equals("") ? -1 : Float.parseFloat(value);
 	}
 
+	@Override
+	public String getKey() {
+		return String.valueOf(trip_id);
+	}
 }

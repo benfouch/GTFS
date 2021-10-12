@@ -7,13 +7,15 @@
  */
 
 
+import java.util.List;
+
 /**
  * An Object to make data management easier
  * @author Ben Fouch
  * @version 1.0
  * @created 07-Oct-2021 11:02:21 AM
  */
-public class Stop {
+public class Stop implements GTFSData{
 
 	public String stop_desc;
 	public int stop_id;
@@ -21,12 +23,13 @@ public class Stop {
 	public float stop_lon;
 	public String stop_name;
 
-	public Stop(String stop_id, String stop_name, String stop_desc, String stop_lat, String stop_lon){
-		this.stop_id = (int)makeFloat(stop_id);
-		this.stop_name = stop_name;
-		this.stop_desc = stop_desc;
-		this.stop_lat = makeFloat(stop_lat);
-		this.stop_lon = makeFloat(stop_lon);
+	public Stop(List<String> params){
+		int i = 0;
+		this.stop_id = (int)makeFloat(params.get(i++));
+		this.stop_name = params.get(i++);
+		this.stop_desc = params.get(i++);
+		this.stop_lat = makeFloat(params.get(i++));
+		this.stop_lon = makeFloat(params.get(i));
 	}
 
 	/**
@@ -34,12 +37,16 @@ public class Stop {
 	 * @return a text representation of the data in the Stop object
 	 */
 	public String toString(){
-		return "From Stops: \n" +
-				"stop_id: " + stop_id + "\n" +
-				"\tstop_name: " + stop_name + "\n" +
-				"\tstop_desc: " + stop_desc + "\n" +
-				"\tstop_lat: " + stop_lat + "\n" +
-				"\tstop_lon: " + stop_lon + "\n";
+		return stop_id + "," +
+				stop_name + "," +
+				stop_desc + "," +
+				stop_lat + "," +
+				stop_lon;
+	}
+
+	@Override
+	public String getHeader() {
+		return "stop_id,stop_name,stop_desc,stop_lat,stop_lon\n";
 	}
 
 	/**
@@ -49,5 +56,10 @@ public class Stop {
 	 */
 	private float makeFloat(String value){
 		return value.equals("") ? -1 : Float.parseFloat(value);
+	}
+
+	@Override
+	public String getKey() {
+		return String.valueOf(stop_id);
 	}
 }

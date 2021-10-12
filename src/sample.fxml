@@ -18,6 +18,14 @@
                                 <Insets bottom="30.0" top="30.0" />
                             </VBox.margin>
                         </Button>
+                  <Button fx:id="ExportFiles" mnemonicParsing="false" onAction="#exportFiles" prefHeight="46.0" prefWidth="120.0" text="Export Files">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </Button>
                         <Button fx:id="EditTransitTable" mnemonicParsing="false" onAction="#editTransitTable" prefHeight="46.0" prefWidth="120.0" text="Edit Transit Table">
                             <VBox.margin>
                                 <Insets bottom="30.0" />
