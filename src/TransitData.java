@@ -139,11 +139,18 @@ public class TransitData implements Subject {
 			while (scanner.hasNextLine()) {
 				splitLine = Arrays.stream(scanner.nextLine().split(",")).collect(Collectors.toList());
 				splitLine.add("");
+				/* if (!validateDataLine(splitLine)){
+					throw new Exception("Invalid Line");
+				}*/
 				if (!firstLine) {
 					newObj = setNewObj(fileName, splitLine);
 					gtfsMap.put(newObj.getKey(), newObj);
 					gtfsList.add(newObj);
-				}
+				} /*else{
+					if (!validateHeader(splitLine)){
+						throw new Exception("Invalid header");
+					}
+				}*/
 				firstLine = false;
 			}
 		} catch (Exception e) {
@@ -235,5 +242,15 @@ public class TransitData implements Subject {
 				writer.write(data.toString() + "\n");
 			}
 		}
+	}
+
+	public int getTripsOnStop(int stop_id){
+		int i = 0;
+		for (GTFSData time : timesList){
+			if (time.getValues()[3].equals(String.valueOf(stop_id))){
+				i++;
+			}
+		}
+		return i;
 	}
 }

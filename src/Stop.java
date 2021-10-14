@@ -62,4 +62,10 @@ public class Stop implements GTFSData{
 	public String getKey() {
 		return String.valueOf(stop_id);
 	}
+
+	@Override
+	public String[] getValues() {
+		return new String[]{String.valueOf(stop_id), stop_name, stop_desc, String.valueOf(stop_lat),
+				String.valueOf(stop_lon)};
+	}
 }
