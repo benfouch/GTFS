@@ -74,4 +74,9 @@ public class StopTime implements GTFSData{
 	public String getKey() {
 		return String.valueOf(trip_id);
 	}
+
+	@Override
+	public String[] getValues() {
+		return new String[]{String.valueOf(trip_id), String.valueOf(arrival_time), String.valueOf(departure_time), String.valueOf(stop_id), String.valueOf(stop_sequence), String.valueOf(pickup_type), String.valueOf(stop_headsign), String.valueOf(drop_off_type)};
+	}
 }

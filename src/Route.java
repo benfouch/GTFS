@@ -69,4 +69,10 @@ public class Route implements GTFSData {
     public String getKey() {
         return String.valueOf(route_id);
     }
+
+	@Override
+	public String[] getValues() {
+		return new String[]{route_id, agency_id, route_short_name, route_long_name, route_desc,
+                String.valueOf(route_type), route_text_color, route_color, route_url};
+	}
 }

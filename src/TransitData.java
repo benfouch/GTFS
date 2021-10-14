@@ -155,22 +155,23 @@ public class TransitData implements Subject {
 	}
 
 	//region not Implemented
-
 	/**
+	 * 
 	 * @param observer
 	 */
-	public void attach(Observer observer) {
+	public void attach(Observer observer){
 
 	}
 
 	/**
+	 * 
 	 * @param observer
 	 */
-	public void detach(Observer observer) {
+	public void detach(Observer observer){
 
 	}
 
-	public void notifyObservers() {
+	public void notifyObservers(){
 
 	}
 	//endregion
@@ -190,7 +191,7 @@ public class TransitData implements Subject {
 		}
 	}
 
-	private void setDataStructures(String fileName) {
+	private void setDataStructures(String fileName){
 		switch (fileName) {
 			case "routes.txt":
 				routes = gtfsMap;
@@ -213,7 +214,7 @@ public class TransitData implements Subject {
 
 	public void exportFile(File location, String name) throws IOException {
 		List<GTFSData> dataObject = new LinkedList<>();
-		switch (name) {
+		switch (name){
 			case "routes.txt":
 				dataObject = routeList;
 				break;
@@ -254,5 +255,15 @@ public class TransitData implements Subject {
 	public boolean isRoutes(String line) {
 		String validLine = "route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color";
 		return line.equals(validLine);
+	}
+
+	public int getTripsOnStop(int stop_id){
+		int i = 0;
+		for (GTFSData time : timesList){
+			if (time.getValues()[3].equals(String.valueOf(stop_id))){
+				i++;
+			}
+		}
+		return i;
 	}
 }
