@@ -7,13 +7,15 @@
  */
 
 
+import java.util.List;
+
 /**
  * An Object to make data management easier
  * @author Ben Fouch
  * @version 1.0
  * @created 07-Oct-2021 11:02:32 AM
  */
-public class Trip {
+public class Trip implements GTFSData{
 
 	public int block_id;
 	public int direction_id;
@@ -23,16 +25,16 @@ public class Trip {
 	public String trip_headsign;
 	public float trip_id;
 
-	public Trip(String route_id, String service_id, String trip_id, String trip_headsign,
-				String direction_id, String block_id,String shape_id){
-		this.block_id = (int)makeFloat(block_id);
-		this.direction_id = (int)makeFloat(direction_id);
-		this.route_id = route_id;
-		this.service_id = service_id;
-		this.shape_id = shape_id;
-		this.trip_headsign = trip_headsign;
-		String trip_idString = !trip_id.equals("") ? trip_id.split("_")[0] + "." + trip_id.split("_")[1] : "";
+	public Trip(List<String> params){
+		int i = 0;
+		this.route_id = params.get(i++);
+		this.service_id = params.get(i++);
+		String trip_idString = !params.get(i).equals("") ? params.get(i).split("_")[0] + "." + params.get(i++).split("_")[1] : "";
 		this.trip_id = makeFloat(trip_idString);
+		this.trip_headsign = params.get(i++);
+		this.direction_id = (int)makeFloat(params.get(i++));
+		this.block_id = (int)makeFloat(params.get(i++));
+		this.shape_id = params.get(i);
 	}
 
 	/**
@@ -40,14 +42,24 @@ public class Trip {
 	 * @return a text representation of the data in the Trip object
 	 */
 	public String toString(){
-		return "From Trips: \n" +
-				"Route_id: " + route_id + "\n" +
-				"\tblock_id: " + block_id + "\n" +
-				"\tdirection_id: " + direction_id + "\n" +
-				"\tservice_id: " + service_id + "\n" +
-				"\tshape_id: " + shape_id + "\n" +
-				"\ttrip_headsign: " + trip_headsign + "\n" +
-				"\ttrip_id: " + trip_id + "\n";
+		return route_id + "," +
+				service_id + "," +
+				trip_id + "," +
+				trip_headsign + "," +
+				direction_id + "," +
+				block_id + "," +
+				shape_id;
+	}
+
+	@Override
+	public String getHeader() {
+		return "route_id,service_id,trip_id,trip_headsign," +
+				"direction_id,block_id,shape_id\n";
+	}
+
+	@Override
+	public String getKey() {
+		return String.valueOf(trip_id);
 	}
 
 	/**
