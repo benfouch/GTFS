@@ -12,11 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -257,6 +253,26 @@ public class TransitData implements Subject {
 		return line.equals(validLine);
 	}
 
+	public boolean isTripsLine(Collection<String> list){
+		boolean valid;
+		return true;
+	}
+
+	public boolean isRoutesLine(Collection<String> list){
+		boolean valid;
+		return true;
+	}
+
+	public boolean isStopTimesLine(Collection<String> list){
+		boolean valid;
+		return true;
+	}
+
+	public boolean isStopsLine(Collection<String> list){
+		boolean valid;
+		return true;
+	}
+	
 	public int getTripsOnStop(int stop_id){
 		int i = 0;
 		for (GTFSData time : timesList){
