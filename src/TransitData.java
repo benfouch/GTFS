@@ -155,23 +155,22 @@ public class TransitData implements Subject {
 	}
 
 	//region not Implemented
+
 	/**
-	 * 
 	 * @param observer
 	 */
-	public void attach(Observer observer){
+	public void attach(Observer observer) {
 
 	}
 
 	/**
-	 * 
 	 * @param observer
 	 */
-	public void detach(Observer observer){
+	public void detach(Observer observer) {
 
 	}
 
-	public void notifyObservers(){
+	public void notifyObservers() {
 
 	}
 	//endregion
@@ -191,7 +190,7 @@ public class TransitData implements Subject {
 		}
 	}
 
-	private void setDataStructures(String fileName){
+	private void setDataStructures(String fileName) {
 		switch (fileName) {
 			case "routes.txt":
 				routes = gtfsMap;
@@ -214,7 +213,7 @@ public class TransitData implements Subject {
 
 	public void exportFile(File location, String name) throws IOException {
 		List<GTFSData> dataObject = new LinkedList<>();
-		switch (name){
+		switch (name) {
 			case "routes.txt":
 				dataObject = routeList;
 				break;
@@ -235,5 +234,25 @@ public class TransitData implements Subject {
 				writer.write(data.toString() + "\n");
 			}
 		}
+	}
+
+	public boolean isTrips(String line) {
+		String validLine = "route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id";
+		return line.equals(validLine);
+	}
+
+	public boolean isStops(String line) {
+		String validLine = "stop_id,stop_name,stop_desc,stop_lat,stop_lon";
+		return line.equals(validLine);
+	}
+
+	public boolean isStopTimes(String line) {
+		String validLine = "trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type";
+		return line.equals(validLine);
+	}
+
+	public boolean isRoutes(String line) {
+		String validLine = "route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color";
+		return line.equals(validLine);
 	}
 }
