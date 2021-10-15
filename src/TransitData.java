@@ -195,7 +195,7 @@ public class TransitData implements Subject {
 				break;
 			case "stop_times.txt":
 				stopTimes = gtfsMap;
-				stopsList = gtfsList;
+				timesList = gtfsList;
 				break;
 			case "stops.txt":
 				stops = gtfsMap;
@@ -268,18 +268,18 @@ public class TransitData implements Subject {
 		return true;
 	}
 
-	public boolean isStopsLine(Collection<String> list){
+	public boolean isStopsLine(List<String> list){
 		boolean valid;
 		return true;
 	}
 	
-	public int getTripsOnStop(int stop_id){
+	public String getTripsOnStop(String stop_id){
 		int i = 0;
 		for (GTFSData time : timesList){
-			if (time.getValues()[3].equals(String.valueOf(stop_id))){
+			if (time.getValues()[3].equals(stop_id)){
 				i++;
 			}
 		}
-		return i;
+		return "Trips through stop " + stop_id + ": [" + i + "]";
 	}
 }

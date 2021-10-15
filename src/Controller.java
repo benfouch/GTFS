@@ -9,6 +9,7 @@
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
 import javax.swing.JOptionPane;
@@ -32,11 +33,10 @@ public class Controller {
     @FXML
     TextArea textArea;
 
+    @FXML
+    TextField searchBar_stop_ID;
+
     public Controller() {
-
-    }
-
-    public void finalize() throws Throwable {
 
     }
 
@@ -51,6 +51,12 @@ public class Controller {
     public boolean openTransitTable() {
         return false;
     }
+
+    public boolean searchTripsThroughStop() {
+        textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
+        return true;
+    }
+
 
     /**
      * Controller for the upload file button
