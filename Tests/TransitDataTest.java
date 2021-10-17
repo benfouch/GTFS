@@ -6,7 +6,9 @@
  * Created: 07-Oct-2021
  */
 
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
+
 
 class TransitDataTest {
 
