@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -253,24 +254,119 @@ public class TransitData implements Subject {
 		return line.equals(validLine);
 	}
 
-	public boolean isTripsLine(Collection<String> list){
-		boolean valid;
-		return true;
+	public boolean isTripsLine(ArrayList<String> list){
+		int counter = 0;
+		if (list.size() == 7) {
+			if (!list.get(0).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(1).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(2).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(3).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(4).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(5).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(6).isEmpty()){
+				counter += 1;
+			}
+		}
+		return counter == 7;
 	}
 
-	public boolean isRoutesLine(Collection<String> list){
-		boolean valid;
-		return true;
+	public boolean isRoutesLine(ArrayList<String> list){
+		int counter = 0;
+		if (list.size() == 9) {
+			if (!list.get(0).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(1).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(2).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(3).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(4).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(5).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(6).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(7).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(8).isEmpty()){
+				counter += 1;
+			}
+		}
+		return counter == 9;
 	}
 
-	public boolean isStopTimesLine(Collection<String> list){
-		boolean valid;
-		return true;
+	public boolean isStopTimesLine(ArrayList<String> list){
+		int counter = 0;
+		if (list.size() == 8) {
+			if (!list.get(0).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(1).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(2).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(3).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(4).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(5).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(6).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(7).isEmpty()){
+				counter += 1;
+			}
+		}
+		return counter == 8;
 	}
 
-	public boolean isStopsLine(Collection<String> list){
-		boolean valid;
-		return true;
+	public boolean isStopsLine(ArrayList<String> list){
+		int counter = 0;
+		if (list.size() == 5) {
+			if (!list.get(0).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(1).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(2).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(3).isEmpty()){
+				counter += 1;
+			}
+			if (!list.get(4).isEmpty()){
+				counter += 1;
+			}
+		}
+		return counter == 5;
 	}
 	
 	public int getTripsOnStop(int stop_id){
