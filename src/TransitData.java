@@ -6,6 +6,7 @@
  * Created: 07-Oct-2021
  */
 
+import javax.naming.InvalidNameException;
 import javax.naming.NameNotFoundException;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -145,8 +146,9 @@ public class TransitData implements Subject {
 	 * Saves in the File from specified path into the data structures of the program
 	 *
 	 * @param path The path of the file being uploaded
+	 * @return the number of line that was skipped in the upload process
 	 */
-	public boolean downloadFiles(Path path) {
+	public int downloadFiles(Path path) throws InvalidNameException, NameNotFoundException {
 		gtfsMap = new HashMap<>();
 		gtfsList = new LinkedList<>();
 		GTFSData newObj;
@@ -154,24 +156,31 @@ public class TransitData implements Subject {
 		List<String> splitLine;
 		String[] pathList = path.toString().split("\\\\");
 		String fileName = pathList[pathList.length - 1];
+		int numSkipped = 0;
 
 		try (Scanner scanner = new Scanner(path)) {
+			if (!isValidHeader(fileName, scanner.nextLine())){
+				throw new InvalidNameException("Invalid Header");
+			}
 			while (scanner.hasNextLine()) {
 				splitLine = Arrays.stream(scanner.nextLine().split(",")).collect(Collectors.toList());
 				splitLine.add("");
 				if (!firstLine) {
-					newObj = setNewObj(fileName, splitLine);
-					gtfsMap.put(newObj.getKey(), newObj);
-					gtfsList.add(newObj);
+					if (isValidLine(fileName, splitLine)){
+						newObj = setNewObj(fileName, splitLine);
+						gtfsMap.put(newObj.getKey(), newObj);
+						gtfsList.add(newObj);
+					} else {
+						numSkipped++;
+					}
 				}
 				firstLine = false;
 			}
-		} catch (Exception e) {
-			System.out.println("Error in <TransitData.saveGTFSFile()>");
-			return false;
+		} catch (IOException e){
+			return -1;
 		}
 		setDataStructures(fileName);
-		return true;
+		return numSkipped;
 	}
 
 	private GTFSData setNewObj(String fileName, List<String> splitLine) throws NameNotFoundException {
@@ -241,6 +250,35 @@ public class TransitData implements Subject {
     //endregion
 
 	//region File validation
+	private boolean isValidLine(String fileName, List<String> firstLine){
+		switch (fileName) {
+			case "routes.txt":
+				return isRoutesLine((ArrayList<String>) firstLine);
+			case "stop_times.txt":
+				return isStopTimesLine((ArrayList<String>) firstLine);
+			case "stops.txt":
+				return isStopsLine((ArrayList<String>) firstLine);
+			case "trips.txt":
+				return isTripsLine((ArrayList<String>) firstLine);
+		}
+		return false;
+	}
+
+	private boolean isValidHeader(String fileName, String firstLine){
+		switch (fileName) {
+			case "routes.txt":
+				return isRoutes(firstLine);
+			case "stop_times.txt":
+				return isStopTimes(firstLine);
+			case "stops.txt":
+				return isStops(firstLine);
+			case "trips.txt":
+				return isTrips(firstLine);
+		}
+		return false;
+	}
+
+
 	/**
 	 * Validates the header for trips
 	 * @param line the line to be checked
@@ -284,30 +322,15 @@ public class TransitData implements Subject {
 	 */
 	public static boolean isTripsLine(ArrayList<String> list) {
 		int counter = 0;
-		if (list.size() == 7) {
+		if (list.size() >= 7) {
 			if (!list.get(0).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(1).isEmpty()) {
 				counter += 1;
 			}
 			if (!list.get(2).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(3).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(4).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(5).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(6).isEmpty()) {
-				counter += 1;
-			}
 		}
-		return counter == 7;
+		return counter == 2;
 	}
 
 	/**
@@ -317,27 +340,15 @@ public class TransitData implements Subject {
 	 */
 	public static boolean isRoutesLine(ArrayList<String> list) {
 		int counter = 0;
-		if (list.size() == 9) {
+		if (list.size() >= 9) {
 			if (!list.get(0).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(1).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(2).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(3).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(5).isEmpty()) {
 				counter += 1;
 			}
 			if (!list.get(7).isEmpty()) {
 				counter += 1;
 			}
 		}
-		return counter == 6;
+		return counter == 2;
 	}
 
 	/**
@@ -347,14 +358,8 @@ public class TransitData implements Subject {
 	 */
 	public static boolean isStopTimesLine(ArrayList<String> list) {
 		int counter = 0;
-		if (list.size() == 8) {
+		if (list.size() >= 8) {
 			if (!list.get(0).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(1).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(2).isEmpty()) {
 				counter += 1;
 			}
 			if (!list.get(3).isEmpty()) {
@@ -363,14 +368,8 @@ public class TransitData implements Subject {
 			if (!list.get(4).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(6).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(7).isEmpty()) {
-				counter += 1;
-			}
 		}
-		return counter == 7;
+		return counter == 3;
 	}
 
 	/**
@@ -380,11 +379,8 @@ public class TransitData implements Subject {
 	 */
 	public static boolean isStopsLine(ArrayList<String> list) {
 		int counter = 0;
-		if (list.size() == 5) {
+		if (list.size() >= 5) {
 			if (!list.get(0).isEmpty()) {
-				counter += 1;
-			}
-			if (!list.get(1).isEmpty()) {
 				counter += 1;
 			}
 			if (!list.get(3).isEmpty()) {
@@ -394,7 +390,7 @@ public class TransitData implements Subject {
 				counter += 1;
 			}
 		}
-		return counter == 4;
+		return counter == 3;
 	}
 	///endregion
 

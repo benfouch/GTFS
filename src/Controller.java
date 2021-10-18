@@ -71,19 +71,24 @@ public class Controller {
         if (files == (null)) {
             return false;
         }
-
+        int fileCount = files.size();
         for (File file : files) {
             filename = file.getName();
-            System.out.println(file.toPath());
-            System.out.println(file.getName());
 
             if (!file.toString().endsWith(".txt")) {
                 showAlert("File must end in \".txt\"");
             } else {
                 Path p = file.toPath();
-                if (TD.downloadFiles(p)) {
+                try {
+                    int numSkipped = TD.downloadFiles(p);
                     correct += 1;
+                    fileCount--;
+                    showAlert("File " + filename + " uploaded with [" + numSkipped + "] " +
+                            "lines skipped. \n" + fileCount + " files left to process.");
+                } catch (Exception e){
+                    showAlert(e.getMessage());
                 }
+
             }
             if (filename.equals("routes.txt")) {
                 textArea.setText(TD.routes.toString());
