@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  * @author Ben Fouch
  * @version 1.0
  * @created 07-Oct-2021 11:02:27 AM
- * I will be
  */
 public class TransitData implements Subject {
 	//region vars
@@ -40,9 +39,33 @@ public class TransitData implements Subject {
 	public Map m_Map;
 	HashMap<Object, GTFSData> gtfsMap;
 	List<GTFSData> gtfsList;
+	private List<String> loadedStructures = new LinkedList<>();
+
 	//endregion
 
 	//region not Implemented
+	/**
+	 * not Implemented
+	 * @param observer
+	 */
+	public void attach(Observer observer){
+
+	}
+
+	/**
+	 * not Implemented
+	 * @param observer
+	 */
+	public void detach(Observer observer){
+
+	}
+
+	/**
+	 * not Implemented
+	 */
+	public void notifyObservers(){
+
+	}
 	public boolean exportFiles() {
 		return false;
 	}
@@ -117,8 +140,9 @@ public class TransitData implements Subject {
 	}
 	//endregion
 
+	//region Files I/O
 	/**
-	 * Saves in the File from specified path into the data structure of the program
+	 * Saves in the File from specified path into the data structures of the program
 	 *
 	 * @param path The path of the file being uploaded
 	 */
@@ -150,28 +174,6 @@ public class TransitData implements Subject {
 		return true;
 	}
 
-	//region not Implemented
-	/**
-	 * 
-	 * @param observer
-	 */
-	public void attach(Observer observer){
-
-	}
-
-	/**
-	 * 
-	 * @param observer
-	 */
-	public void detach(Observer observer){
-
-	}
-
-	public void notifyObservers(){
-
-	}
-	//endregion
-
 	private GTFSData setNewObj(String fileName, List<String> splitLine) throws NameNotFoundException {
 		switch (fileName) {
 			case "routes.txt":
@@ -192,18 +194,22 @@ public class TransitData implements Subject {
 			case "routes.txt":
 				routes = gtfsMap;
 				routeList = gtfsList;
+				loadedStructures.add("routes");
 				break;
 			case "stop_times.txt":
 				stopTimes = gtfsMap;
-				stopsList = gtfsList;
+				timesList = gtfsList;
+				loadedStructures.add("stopTimes");
 				break;
 			case "stops.txt":
 				stops = gtfsMap;
 				stopsList = gtfsList;
+				loadedStructures.add("stops");
 				break;
 			case "trips.txt":
 				trips = gtfsMap;
 				tripsList = gtfsList;
+				loadedStructures.add("trips");
 				break;
 		}
 	}
@@ -232,27 +238,50 @@ public class TransitData implements Subject {
 			}
 		}
 	}
+    //endregion
 
+	//region File validation
+	/**
+	 * Validates the header for trips
+	 * @param line the line to be checked
+	 * @return true if the header matches ethe expected
+	 */
 	public boolean isTrips(String line) {
-		String validLine = "route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id";
-		return line.equals(validLine);
+		return line.equals("route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id");
 	}
 
+	/**
+	 * Validates the header for stops
+	 * @param line the line to be checked
+	 * @return true if the header matches ethe expected
+	 */
 	public boolean isStops(String line) {
-		String validLine = "stop_id,stop_name,stop_desc,stop_lat,stop_lon";
-		return line.equals(validLine);
+		return line.equals("stop_id,stop_name,stop_desc,stop_lat,stop_lon");
 	}
 
+	/**
+	 * Validates the header for stop times
+	 * @param line the line to be checked
+	 * @return true if the header matches ethe expected
+	 */
 	public boolean isStopTimes(String line) {
-		String validLine = "trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type";
-		return line.equals(validLine);
+		return line.equals("trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type");
 	}
 
+	/**
+	 * Validates the header for routes
+	 * @param line the line to be checked
+	 * @return true if the header matches ethe expected
+	 */
 	public boolean isRoutes(String line) {
-		String validLine = "route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color";
-		return line.equals(validLine);
+		return line.equals("route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color");
 	}
 
+	/**
+	 * Checks to make sure the trips line is filled out where it needs to be
+	 * @param list the list of inputs in the line
+	 * @return true is it matches the expected
+	 */
 	public static boolean isTripsLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 7) {
@@ -281,6 +310,11 @@ public class TransitData implements Subject {
 		return counter == 7;
 	}
 
+	/**
+	 * Checks to make sure the routes line is filled out where it needs to be
+	 * @param list the list of inputs in the line
+	 * @return true is it matches the expected
+	 */
 	public static boolean isRoutesLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 9) {
@@ -306,6 +340,11 @@ public class TransitData implements Subject {
 		return counter == 6;
 	}
 
+	/**
+	 * Checks to make sure the stop times line is filled out where it needs to be
+	 * @param list the list of inputs in the line
+	 * @return true is it matches the expected
+	 */
 	public static boolean isStopTimesLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 8) {
@@ -334,6 +373,11 @@ public class TransitData implements Subject {
 		return counter == 7;
 	}
 
+	/**
+	 * Checks to make sure the stops line is filled out where it needs to be
+	 * @param list the list of inputs in the line
+	 * @return true is it matches the expected
+	 */
 	public static boolean isStopsLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 5) {
@@ -352,14 +396,33 @@ public class TransitData implements Subject {
 		}
 		return counter == 4;
 	}
-	
-	public int getTripsOnStop(int stop_id){
-		int i = 0;
-		for (GTFSData time : timesList){
-			if (time.getValues()[3].equals(String.valueOf(stop_id))){
-				i++;
+	///endregion
+
+	/**
+	 * helper to make sure all files are loaded in to the program
+	 * @return true if they are all loaded in
+	 */
+	public boolean areFilesLoaded(){
+		Collection<String> allFiles = new ArrayList<>(Arrays.asList("stops", "trips", "stopTimes", "routes"));
+		return loadedStructures.containsAll(allFiles);
+	}
+
+	/**
+	 * gets the number of trips that go through a specified stop
+	 * @param stop_id the stop that the trips have to go through
+	 * @return the number of trips through the stop
+	 */
+	public String getTripsOnStop(String stop_id){
+		if (areFilesLoaded()){
+			int i = 0;
+			for (GTFSData time : timesList){
+				if (time.getValues()[3].equals(stop_id)){
+					i++;
+				}
 			}
+			return i + "";
+		} else {
+			return "Please load in all files first";
 		}
-		return i;
 	}
 }

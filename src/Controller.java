@@ -26,19 +26,14 @@ import java.util.List;
  * @created 07-Oct-2021 11:05:21 AM
  */
 public class Controller {
-
-    public MainGUI m_MainGUI;
-    private TransitData TD = new TransitData();
+    private MainGUI m_MainGUI;
+    private final TransitData TD = new TransitData();
 
     @FXML
     TextArea textArea;
 
     @FXML
     TextField searchBar_stop_ID;
-
-    public Controller() {
-
-    }
 
     public boolean editTransitTable() {
         return false;
@@ -52,11 +47,12 @@ public class Controller {
         return false;
     }
 
-    public boolean searchTripsThroughStop() {
+    /**
+     * handles find the number of trips through a stop
+     */
+    public void searchTripsThroughStop() {
         textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
-        return true;
     }
-
 
     /**
      * Controller for the upload file button
