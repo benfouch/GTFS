@@ -253,115 +253,115 @@ public class TransitData implements Subject {
 		return line.equals(validLine);
 	}
 
-	public boolean isTripsLine(ArrayList<String> list){
+	public boolean isTripsLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 7) {
-			if (!list.get(0).isEmpty()){
+			if (!list.get(0).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(1).isEmpty()){
+			if (!list.get(1).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(2).isEmpty()){
+			if (!list.get(2).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(3).isEmpty()){
+			if (!list.get(3).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(4).isEmpty()){
+			if (!list.get(4).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(5).isEmpty()){
+			if (!list.get(5).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(6).isEmpty()){
+			if (!list.get(6).isEmpty()) {
 				counter += 1;
 			}
 		}
 		return counter == 7;
 	}
 
-	public boolean isRoutesLine(ArrayList<String> list){
+	public boolean isRoutesLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 9) {
-			if (!list.get(0).isEmpty()){
+			if (!list.get(0).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(1).isEmpty()){
+			if (!list.get(1).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(2).isEmpty()){
+			if (!list.get(2).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(3).isEmpty()){
+			if (!list.get(3).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(4).isEmpty()){
+			if (!list.get(4).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(5).isEmpty()){
+			if (!list.get(5).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(6).isEmpty()){
+			if (!list.get(6).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(7).isEmpty()){
+			if (!list.get(7).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(8).isEmpty()){
+			if (!list.get(8).isEmpty()) {
 				counter += 1;
 			}
 		}
 		return counter == 9;
 	}
 
-	public boolean isStopTimesLine(ArrayList<String> list){
+	public boolean isStopTimesLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 8) {
-			if (!list.get(0).isEmpty()){
+			if (!list.get(0).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(1).isEmpty()){
+			if (!list.get(1).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(2).isEmpty()){
+			if (!list.get(2).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(3).isEmpty()){
+			if (!list.get(3).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(4).isEmpty()){
+			if (!list.get(4).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(5).isEmpty()){
+			if (!list.get(5).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(6).isEmpty()){
+			if (!list.get(6).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(7).isEmpty()){
+			if (!list.get(7).isEmpty()) {
 				counter += 1;
 			}
 		}
 		return counter == 8;
 	}
 
-	public boolean isStopsLine(ArrayList<String> list){
+	public boolean isStopsLine(ArrayList<String> list) {
 		int counter = 0;
 		if (list.size() == 5) {
-			if (!list.get(0).isEmpty()){
+			if (!list.get(0).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(1).isEmpty()){
+			if (!list.get(1).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(2).isEmpty()){
+			if (!list.get(2).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(3).isEmpty()){
+			if (!list.get(3).isEmpty()) {
 				counter += 1;
 			}
-			if (!list.get(4).isEmpty()){
+			if (!list.get(4).isEmpty()) {
 				counter += 1;
 			}
 		}
