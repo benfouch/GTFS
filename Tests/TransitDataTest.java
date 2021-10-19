@@ -28,6 +28,7 @@ class TransitDataTest {
     // Test Case 1: Correct header should return true
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
+    // Written by Hamza Zuberi
     @Test
     void testIsStops() {
         String case1 = "stop_id,stop_name,stop_desc,stop_lat,stop_lon";
@@ -43,6 +44,7 @@ class TransitDataTest {
     // Test Case 1: Correct header should return true
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
+    // Written by Hamza Zuberi
     @Test
     void testIsTrips() {
         String case1 = "route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id";

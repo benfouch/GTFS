@@ -23,24 +23,24 @@ import java.util.stream.Collectors;
  */
 public class TransitData implements Subject {
 	//region vars
-	public HashMap<Object, GTFSData> routes;
-	public List<GTFSData> routeList;
-	public HashMap<Object, GTFSData> stops;
-	public List<GTFSData> stopsList;
-	public HashMap<Object, GTFSData> stopTimes;
-	public List<GTFSData> timesList;
-	public HashMap<Object, GTFSData> trips;
-	public List<GTFSData> tripsList;
-	public Stop m_Stop;
-	public Controller m_Controller;
-	public StopTime m_StopTime;
-	public Trip m_Trip;
-	public Route m_Route;
-	public TransitTable m_TransitTable;
-	public Map m_Map;
+	HashMap<Object, GTFSData> routes;
+	private List<GTFSData> routeList;
+	HashMap<Object, GTFSData> stops;
+	private List<GTFSData> stopsList;
+	HashMap<Object, GTFSData> stopTimes;
+	private List<GTFSData> timesList;
+	HashMap<Object, GTFSData> trips;
+	private List<GTFSData> tripsList;
+	private Stop m_Stop;
+	private Controller m_Controller;
+	private StopTime m_StopTime;
+	private Trip m_Trip;
+	private Route m_Route;
+	private TransitTable m_TransitTable;
+	private Map m_Map;
 	HashMap<Object, GTFSData> gtfsMap;
 	List<GTFSData> gtfsList;
-	private List<String> loadedStructures = new LinkedList<>();
+	List<String> loadedStructures = new LinkedList<>();
 
 	//endregion
 
