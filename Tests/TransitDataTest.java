@@ -58,9 +58,15 @@ class TransitDataTest {
     // Test Case 1: Correct header should return true
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
+    // Written by Ben Fouch
     @Test
     void testIsStopTimes() {
-
+        String case1 = "trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type";
+        String case2 = "asdfghj";
+        String case3 = "trip_id,arrival_time,departure_time,stop_id";
+        assertTrue(TransitData.isStopTimes(case1));
+        assertFalse(TransitData.isStopTimes(case2));
+        assertFalse(TransitData.isStopTimes(case3));
     }
 
     // Tests isRoutes method with to check different headers
@@ -68,9 +74,15 @@ class TransitDataTest {
     // Test Case 1: Correct header should return true
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
+    // Written by Ben Fouch
     @Test
     void testIsRoutes() {
-
+        String case1 = "route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color";
+        String case2 = "asdfghjkl";
+        String case3 = "route_long_name,route_desc,route_type,route_url,";
+        assertTrue(TransitData.isRoutes(case1));
+        assertFalse(TransitData.isRoutes(case2));
+        assertFalse(TransitData.isRoutes(case3));
     }
 
     // Tests isStopsLine method to check the validity of a line within a stops file
@@ -121,6 +133,7 @@ class TransitDataTest {
         assertFalse(TransitData.isTripsLine(invalidInput));
     }
 
+    //region not implemented
     @Test
     void testFinalize() {
     }
@@ -172,4 +185,5 @@ class TransitDataTest {
     @Test
     void uploadFiles() {
     }
+    //endregion
 }
