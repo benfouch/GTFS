@@ -7,7 +7,7 @@
  */
 
 
-import org.junit.Assert;
+
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -85,9 +85,12 @@ class TransitDataTest {
         assertFalse(TransitData.isRoutes(case3));
     }
 
-    // Tests isStopsLine method to check the validity of a line within a stops file
-    // Test case 1: Valid line should return true
-    // Test case 2: Invalid line should return false
+    /**
+     * @author Ethan White
+     *  Tests isStopsLine method to check the validity of a line within a stops file
+     *  Test case 1: Valid line should return true
+     *  Test case 2: Invalid line should return false
+     */
     @Test
     void testIsStopsLine(){
         ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("6712,STATE & 5101 #6712,,43.0444475,-87.9779369".split(",")));
@@ -97,9 +100,12 @@ class TransitDataTest {
         assertFalse(TransitData.isStopsLine(invalidInput));
     }
 
-    // Tests isStopsTimesLine method to check the validity of a line within a stop_times file
-    // Test case 1: Valid line should return true
-    // Test case 2: Invalid line should return false
+    /**
+     * @author Ethan White
+     *  Tests isStopsTimesLine method to check the validity of a line within a stop_times file
+     *  Test case 1: Valid line should return true
+     *  Test case 2: Invalid line should return false
+     */
     @Test
     void testIsStopTimesLine(){
         ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("21736564_2535,08:51:00,08:51:00,9113,1,,0,0".split(",")));
@@ -109,9 +115,13 @@ class TransitDataTest {
         assertFalse(TransitData.isStopTimesLine(invalidInput));
     }
 
-    // Tests isRoutesLine method to check the validity of a line within a routes file
-    // Test case 1: Valid line should return true
-    // Test case 2: Invalid line should return false
+    /**
+     * @author Ethan White
+     *  Tests isRoutesLine method to check the validity of a line within a routes file
+     *  Test case 1: Valid line should return true
+     *  Test case 2: Invalid line should return false
+     */
+
     @Test
     void testIsRoutesLine(){
         ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("12,MCTS,12,Teutonia-Hampton,,3,,008345, ".split(",")));
@@ -121,9 +131,13 @@ class TransitDataTest {
         assertFalse(TransitData.isRoutesLine(invalidInput));
     }
 
-    // Tests isTripsLine method to check the validity of a line within a trips file
-    // Test case 1: Valid line should return true
-    // Test case 2: Invalid line should return false
+
+    /**
+     * @author Ethan White
+     * Tests isTripsLine method to check the validity of a line within a trips file
+     * Test case 1: Valid line should return true
+     * Test case 2: Invalid line should return false
+     */
     @Test
     void testIsTripsLine(){
         ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("64,17-SEP_SUN,21736564_2535,60TH-VLIET,0,64102,17-SEP_64_0_23".split(",")));

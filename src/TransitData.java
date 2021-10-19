@@ -280,6 +280,7 @@ public class TransitData implements Subject {
 
 
 	/**
+	 * @author Ethan White
 	 * Validates the header for trips
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
@@ -289,6 +290,7 @@ public class TransitData implements Subject {
 	}
 
 	/**
+	 * @author Ethan White
 	 * Validates the header for stops
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
@@ -298,6 +300,7 @@ public class TransitData implements Subject {
 	}
 
 	/**
+	 * @author Ethan White
 	 * Validates the header for stop times
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
@@ -307,6 +310,7 @@ public class TransitData implements Subject {
 	}
 
 	/**
+	 * @author Ethan White
 	 * Validates the header for routes
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
@@ -316,6 +320,7 @@ public class TransitData implements Subject {
 	}
 
 	/**
+	 * @author Ethan White
 	 * Checks to make sure the trips line is filled out where it needs to be
 	 * @param list the list of inputs in the line
 	 * @return true is it matches the expected
@@ -334,6 +339,7 @@ public class TransitData implements Subject {
 	}
 
 	/**
+	 * @author Ethan White
 	 * Checks to make sure the routes line is filled out where it needs to be
 	 * @param list the list of inputs in the line
 	 * @return true is it matches the expected
@@ -352,6 +358,7 @@ public class TransitData implements Subject {
 	}
 
 	/**
+	 * @author Ethan White
 	 * Checks to make sure the stop times line is filled out where it needs to be
 	 * @param list the list of inputs in the line
 	 * @return true is it matches the expected
@@ -373,6 +380,7 @@ public class TransitData implements Subject {
 	}
 
 	/**
+	 * @author Ethan White
 	 * Checks to make sure the stops line is filled out where it needs to be
 	 * @param list the list of inputs in the line
 	 * @return true is it matches the expected
