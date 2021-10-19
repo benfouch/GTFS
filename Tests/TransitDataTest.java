@@ -7,6 +7,7 @@
  */
 
 
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -28,8 +29,13 @@ class TransitDataTest {
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
     @Test
-    void isStops() {
-
+    void testIsStops() {
+        String case1 = "stop_id,stop_name,stop_desc,stop_lat,stop_lon";
+        String case2 = "kjshduasdlkjfsdvkj";
+        String case3 = "stop_id,stop_lat,stop_lon";
+        assertTrue(TransitData.isStops(case1));
+        assertFalse(TransitData.isStops(case2));
+        assertFalse(TransitData.isStops(case3));
     }
 
     // Tests isTrips method with to check different headers
@@ -38,8 +44,13 @@ class TransitDataTest {
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
     @Test
-    void isTrips() {
-
+    void testIsTrips() {
+        String case1 = "route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id";
+        String case2 = "jkhasjdkladsclkjas";
+        String case3 = "route_id,service_id,block_id,shape_id";
+        assertTrue(TransitData.isTrips(case1));
+        assertFalse(TransitData.isTrips(case2));
+        assertFalse(TransitData.isTrips(case3));
     }
 
     // Tests isStopTimes method with to check different headers
@@ -48,7 +59,7 @@ class TransitDataTest {
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
     @Test
-    void isStopTimes() {
+    void testIsStopTimes() {
 
     }
 
@@ -58,7 +69,7 @@ class TransitDataTest {
     // Test Case 2: Completely incorrect header should return false
     // Test Case 3: Partially correct header should return false
     @Test
-    void isRoutes() {
+    void testIsRoutes() {
 
     }
 

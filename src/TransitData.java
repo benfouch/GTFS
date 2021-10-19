@@ -284,7 +284,7 @@ public class TransitData implements Subject {
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
 	 */
-	public boolean isTrips(String line) {
+	public static boolean isTrips(String line) {
 		return line.equals("route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id");
 	}
 
@@ -293,7 +293,7 @@ public class TransitData implements Subject {
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
 	 */
-	public boolean isStops(String line) {
+	public static boolean isStops(String line) {
 		return line.equals("stop_id,stop_name,stop_desc,stop_lat,stop_lon");
 	}
 
@@ -302,7 +302,7 @@ public class TransitData implements Subject {
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
 	 */
-	public boolean isStopTimes(String line) {
+	public static boolean isStopTimes(String line) {
 		return line.equals("trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type");
 	}
 
@@ -311,7 +311,7 @@ public class TransitData implements Subject {
 	 * @param line the line to be checked
 	 * @return true if the header matches ethe expected
 	 */
-	public boolean isRoutes(String line) {
+	public static boolean isRoutes(String line) {
 		return line.equals("route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color");
 	}
 
