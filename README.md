@@ -1,6 +1,6 @@
 # se2030TeamF
 
-####Members: Hamza Z, Ben F, Ethan W
+Members: Hamza Z, Ben F, Ethan W
 
 General Transit Feed Specification (GTFS) Static is a flat file format 
 for specifying transit(aka bus)schedule information. This is an 
