@@ -1,4 +1,4 @@
-/*
+package DataObjects;/*
  * Course: CS2030
  * Fall 2021
  * Lab 5
@@ -18,15 +18,15 @@ import java.util.List;
  */
 public class Route implements GTFSData {
 
-    public String agency_id;
-    public String route_color;
-    public String route_desc;
-    public String route_id;
-    public String route_long_name;
-    public String route_short_name;
-    public String route_text_color;
-    public int route_type;
-    public String route_url;
+    private final String agency_id;
+    private final String route_color;
+    private final String route_desc;
+    private final String route_id;
+    private final String route_long_name;
+    private final String route_short_name;
+    private final String route_text_color;
+    private final String route_type;
+    private final String route_url;
 
     public Route(List<String> params) {
         int i = 0;
@@ -35,7 +35,7 @@ public class Route implements GTFSData {
         this.route_short_name = params.get(i++);
         this.route_long_name = params.get(i++);
         this.route_desc = params.get(i++);
-        this.route_type = params.get(i).equals("") ? -1 : Integer.parseInt(params.get(i++));
+        this.route_type = params.get(i++);
         this.route_text_color = params.get(i++);
         this.route_color = params.get(i++);
         this.route_url = params.get(i);
@@ -67,12 +67,11 @@ public class Route implements GTFSData {
 
     @Override
     public String getKey() {
-        return String.valueOf(route_id);
+        return route_id;
     }
 
 	@Override
 	public String[] getValues() {
-		return new String[]{route_id, agency_id, route_short_name, route_long_name, route_desc,
-                String.valueOf(route_type), route_text_color, route_color, route_url};
-	}
+        return toString().split(",");
+    }
 }
