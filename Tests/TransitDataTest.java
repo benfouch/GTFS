@@ -10,18 +10,41 @@
 
 import org.junit.jupiter.api.*;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class TransitDataTest {
 
+    TransitData TD = new TransitData();
     @BeforeEach
     void setUp() {
+        try{
+            TD.downloadFiles(Paths.get("resources/routes.txt"));
+            TD.downloadFiles(Paths.get("resources/stops.txt"));
+            TD.downloadFiles(Paths.get("resources/trips.txt"));
+            TD.downloadFiles(Paths.get("resources/stop_times.txt"));
+        } catch (Exception e){
+            System.out.println("you done messed up");
+        }
     }
+
+    @Test
+    void testGetRoutesThroughStop(){
+       String normalInput = "4340";
+       String otherNormalInput = "4338";
+       String badInput = "bad";
+       String notAStopID = "9999";
+
+       assertEquals("3", TD.getRoutesThroughStop(normalInput));
+       assertEquals("1", TD.getRoutesThroughStop(otherNormalInput));
+       assertEquals("0", TD.getRoutesThroughStop(badInput));
+       assertEquals("0", TD.getRoutesThroughStop(notAStopID));
+    }
+
 
     // Tests isStops method with to check different headers
     // to see if it returns the expected results.

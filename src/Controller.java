@@ -34,6 +34,10 @@ public class Controller {
     @FXML
     TextField searchBar_stop_ID;
 
+    @FXML
+    TextField searchBar_stop_ID_routes;
+
+
     public boolean editTransitTable() {
         return false;
     }
@@ -51,6 +55,10 @@ public class Controller {
      */
     public void searchTripsThroughStop() {
         textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
+    }
+
+    public void searchRoutesThroughStop() {
+        textArea.setText(TD.getRoutesThroughStop(searchBar_stop_ID_routes.getCharacters().toString()));
     }
 
     /**

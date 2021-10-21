@@ -52,6 +52,8 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search trips on a stop_id" />
                   <TextField fx:id="searchBar_stop_ID" onAction="#searchTripsThroughStop" promptText="Enter Stop_ID" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search routes on a stop_id" />
+                  <TextField fx:id="searchBar_stop_ID_routes" onAction="#searchRoutesThroughStop" promptText="Enter Stop_ID" />
                </children>
             </VBox>
                 <TextArea fx:id="textArea" editable="false" prefHeight="400.0" prefWidth="269.0" />
