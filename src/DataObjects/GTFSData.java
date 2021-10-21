@@ -1,3 +1,5 @@
+package DataObjects;
+
 public interface GTFSData {
 
     String toString();
