@@ -453,6 +453,12 @@ public class TransitData implements Subject {
         return null;
     }
 
+    /**
+     * Get the number of routes that go thorough a stop
+     *
+     * @param stop_id the stop id to search on
+     * @return the number of routes that go through the stop
+     */
     public String getRoutesThroughStop(String stop_id){
         List<String> matchingTripIDs = new LinkedList<>();
         List<GTFSData> matchingTrips = new LinkedList<>();
@@ -465,10 +471,8 @@ public class TransitData implements Subject {
                 }
             }
 
-            for (GTFSData trip : tripsList){
-                if (matchingTripIDs.contains(trip.getValues()[2])){
-                    matchingTrips.add(trip);
-                }
+            for (String tripID : matchingTripIDs){
+                matchingTrips.add(trips.get(tripID));
             }
 
             for (GTFSData trip: matchingTrips){
