@@ -8,16 +8,14 @@
 
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -28,6 +26,7 @@ import java.util.List;
  * @created 07-Oct-2021 11:05:21 AM
  */
 public class Controller {
+    private MainGUI m_MainGUI;
     private final TransitData TD = new TransitData();
 
     @FXML
@@ -35,9 +34,6 @@ public class Controller {
 
     @FXML
     TextField searchBar_stop_ID;
-
-    @FXML
-    TextField searchBar_stop_ID_nextTrip;
 
     public boolean editTransitTable() {
         return false;
@@ -58,12 +54,6 @@ public class Controller {
         textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
     }
 
-    public void searchNextTrips() {
-        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
-        LocalTime current = LocalTime.now();
-        textArea.setText(TD.GetNextTrip(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 20));
-    }
-
     /**
      * Controller for the upload file button
      * Dumps the uploaded file to the screen after loading it in
@@ -74,8 +64,9 @@ public class Controller {
         boolean success;
         String filename;
         int correct = 0;
+        List<File> files;
         FileChooser fileChooser = new FileChooser();
-        List<File> files = fileChooser.showOpenMultipleDialog(null);
+        files = fileChooser.showOpenMultipleDialog(null);
         // Stops trying to upload if nothing was picked
         if (files == (null)) {
             return false;
@@ -85,7 +76,7 @@ public class Controller {
             filename = file.getName();
 
             if (!file.toString().endsWith(".txt")) {
-                showAlert("File must end in \".txt\"", "\"Invalid file extension\"");
+                showAlert("File must end in \".txt\"");
             } else {
                 Path p = file.toPath();
                 try {
@@ -93,23 +84,23 @@ public class Controller {
                     correct += 1;
                     fileCount--;
                     showAlert("File " + filename + " uploaded with [" + numSkipped + "] " +
-                            "lines skipped. \n" + fileCount + " files left to process.", "Upload progress: ");
+                            "lines skipped. \n" + fileCount + " files left to process.");
                 } catch (Exception e){
-                    showAlert(e.getMessage(), "Error");
+                    showAlert(e.getMessage());
                 }
 
             }
             if (filename.equals("routes.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
+                textArea.setText(TD.routes.toString());
             }
             if (filename.equals("stops.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
+                textArea.setText(TD.stops.toString());
             }
             if (filename.equals("stop_times.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
+                textArea.setText(TD.stopTimes.toString());
             }
             if (filename.equals("trips.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
+                textArea.setText(TD.trips.toString());
             }
         }
         success = correct == files.size();
@@ -125,29 +116,22 @@ public class Controller {
         }
 
         if (!location.toString().endsWith(".txt")) {
-            showAlert("File must end in \".txt\"", "Invalid file extension");
+            showAlert("File must end in \".txt\"");
         }
 
         String[] splitPath = location.toString().split("\\\\");
         try {
             TD.exportFile(location, splitPath[splitPath.length-1]);
         } catch (IOException e) {
-            showAlert("There was an error uploading that file", "File Error");
+            showAlert("There was an error uploading that file");
         }
 
         return true;
     }
 
-    /**
-     * helper for making a alert popup
-     * @param message the message for the body of the alert
-     * @param header the header of the alert
-     */
-    public void showAlert(String message, String header) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Alert");
-        alert.setHeaderText(header);
-        alert.setContentText(message);
-        alert.showAndWait();
+
+    public void showAlert(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
+
 }
