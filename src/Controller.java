@@ -58,10 +58,14 @@ public class Controller {
         textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
     }
 
+    /**
+     * Handles finding the next trips through a stop_id
+     * timeVarianceMinutes is set to 30 for now but user input will be implemented later
+     */
     public void searchNextTrips() {
         DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalTime current = LocalTime.now();
-        textArea.setText(TD.GetNextTrip(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 20));
+        textArea.setText(TD.GetNextTrip(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 30));
     }
 
     /**
