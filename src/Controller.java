@@ -16,6 +16,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -34,6 +36,9 @@ public class Controller {
     @FXML
     TextField searchBar_stop_ID;
 
+    @FXML
+    TextField searchBar_stop_ID_nextTrip;
+
     public boolean editTransitTable() {
         return false;
     }
@@ -51,6 +56,12 @@ public class Controller {
      */
     public void searchTripsThroughStop() {
         textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
+    }
+
+    public void searchNextTrips() {
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime current = LocalTime.now();
+        textArea.setText(TD.GetNextTrip(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 20));
     }
 
     /**
