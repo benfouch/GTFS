@@ -139,7 +139,7 @@ public class Controller {
             }
         }
         success = correct == files.size();
-
+        TD.notifyObservers();
         return success;
     }
 

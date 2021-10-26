@@ -178,7 +178,6 @@ public class TransitData implements Subject {
             return -1;
         }
         setDataStructures(fileName);
-        notifyObservers();
         return numSkipped;
     }
 
