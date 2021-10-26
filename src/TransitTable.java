@@ -6,6 +6,8 @@
  * Created: 07-Oct-2021
  */
 
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 
 import DataObjects.GTFSData;
 import javafx.fxml.FXML;
