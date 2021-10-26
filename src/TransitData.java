@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,16 +36,10 @@ public class TransitData implements Subject {
     private List<GTFSData> timesList;
     private HashMap<Object, GTFSData> trips;
     private List<GTFSData> tripsList;
-    private Stop m_Stop;
-    private Controller m_Controller;
-    private StopTime m_StopTime;
-    private Trip m_Trip;
-    private Route m_Route;
-    private TransitTable m_TransitTable;
-    private Map m_Map;
     private HashMap<Object, GTFSData> gtfsMap;
     private List<GTFSData> gtfsList;
     private List<String> loadedStructures = new LinkedList<>();
+    private List<Observer> observers = new LinkedList<>();
     //endregion
 
     //region not Implemented
@@ -53,7 +50,7 @@ public class TransitData implements Subject {
      * @param observer
      */
     public void attach(Observer observer) {
-
+        observers.add(observer);
     }
 
     /**
@@ -65,11 +62,10 @@ public class TransitData implements Subject {
 
     }
 
-    /**
-     * not Implemented
-     */
     public void notifyObservers() {
-
+        for (Observer ob : observers){
+            ob.notifyObserver(tripsList, timesList, stopsList, routeList);
+        }
     }
 
     public boolean exportFiles() {
@@ -182,6 +178,7 @@ public class TransitData implements Subject {
             return -1;
         }
         setDataStructures(fileName);
+        notifyObservers();
         return numSkipped;
     }
 
@@ -255,7 +252,7 @@ public class TransitData implements Subject {
     private boolean isValidLine(String fileName, List<String> firstLine) {
         switch (fileName) {
             case "routes.txt":
-                return isRoutesLine((ArrayList<String>) firstLine);
+                return isRoutesLine(firstLine);
             case "stop_times.txt":
                 return isStopTimesLine((ArrayList<String>) firstLine);
             case "stops.txt":
@@ -327,7 +324,7 @@ public class TransitData implements Subject {
      * @author Ethan White
      * Checks to make sure the trips line is filled out where it needs to be
      */
-    public static boolean isTripsLine(ArrayList<String> list) {
+    public static boolean isTripsLine(List<String> list) {
         int counter = 0;
         if (list.size() >= 7) {
             if (!list.get(0).isEmpty()) {
@@ -346,7 +343,7 @@ public class TransitData implements Subject {
      * @author Ethan White
      * Checks to make sure the routes line is filled out where it needs to be
      */
-    public static boolean isRoutesLine(ArrayList<String> list) {
+    public static boolean isRoutesLine(List<String> list) {
         int counter = 0;
         if (list.size() >= 9) {
             if (!list.get(0).isEmpty()) {
@@ -365,9 +362,9 @@ public class TransitData implements Subject {
      * @author Ethan White
      * Checks to make sure the stop times line is filled out where it needs to be
      */
-    public static boolean isStopTimesLine(ArrayList<String> list) {
+    public static boolean isStopTimesLine(List<String> list) {
         int counter = 0;
-        if (list.size() >= 8) {
+        if (list.size() >= 5){
             if (!list.get(0).isEmpty()) {
                 counter += 1;
             }
@@ -436,10 +433,11 @@ public class TransitData implements Subject {
 
     /**
      * Getter for getting any of the maps with the stored data
+     *
      * @param objType the type of GTFS data needed
      * @return The corresponding hash map
      */
-    public HashMap<Object, GTFSData> getDataMaps(String objType){
+    public HashMap<Object, GTFSData> getDataMaps(String objType) {
         switch (objType) {
             case "routes.txt":
                 return routes;
@@ -454,12 +452,47 @@ public class TransitData implements Subject {
     }
 
     /**
-     * Get the number of routes that go thorough a stop
+     * This method takes a stop_id of a stop in order to find the next trips leaving from that stop. A currentTime is
+     * given, which acts as the lowest time interval value and a timeVarianceMinutes is given which represents how many
+     * minutes after the starting time interval should be consider when searching for trips. For example, if the
+     * currentTime is 5:30 and the timeVarianceMinutes is 20, then all the trips that are departing between 5:30 and
+     * 5:50 will be retrieved and returned as a string.
+     * @author - Ethan White
+     * @param stop_id - the stop_id of the stop used to search for trips
+     * @param currentTime - the lowest time interval
+     * @param timeVarianceMinutes - an int representing the minutes after the starting time interval to consider trips
+     * @return - a string containing a trip_id and its corresponding departure time for each line
+     */
+    public String GetNextTrips(String stop_id, String currentTime, int timeVarianceMinutes) {
+        Calendar cal = Calendar.getInstance();
+
+        Time ending = Time.valueOf(currentTime);
+
+        cal.setTime(ending);
+        cal.add(Calendar.MINUTE, timeVarianceMinutes);
+
+        ending.setTime(cal.getTimeInMillis());
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        String endTime = form.format(ending.toLocalTime());
+
+        StringBuilder sb = new StringBuilder();
+        for (GTFSData stopTime : timesList) {
+            if (stopTime.getValues()[3].equals(stop_id)) {
+                if (stopTime.getValues()[2].compareTo(currentTime) > -1 && stopTime.getValues()[2].compareTo(endTime) < 1) {
+                    sb.append(stopTime.getValues()[0] + ", " + stopTime.getValues()[2] + "\n");
+                }
+            }
+        }
+        return sb.toString();
+
+     /* Get the number of routes that go thorough a stop
      *
      * @param stop_id the stop id to search on
      * @return the number of routes that go through the stop
+     * @author Ben Fouch
      */
-    public String getRoutesThroughStop(String stop_id){
+    public String getRoutesThroughStop(String stop_id) {
         List<String> matchingTripIDs = new LinkedList<>();
         List<GTFSData> matchingTrips = new LinkedList<>();
         List<String> matchingRoutes = new LinkedList<>();
@@ -471,12 +504,12 @@ public class TransitData implements Subject {
                 }
             }
 
-            for (String tripID : matchingTripIDs){
+            for (String tripID : matchingTripIDs) {
                 matchingTrips.add(trips.get(tripID));
             }
 
-            for (GTFSData trip: matchingTrips){
-                if (!matchingRoutes.contains(trip.getValues()[0])){
+            for (GTFSData trip : matchingTrips) {
+                if (!matchingRoutes.contains(trip.getValues()[0])) {
                     matchingRoutes.add(trip.getValues()[0]);
                 }
             }

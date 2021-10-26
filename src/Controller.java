@@ -14,6 +14,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,12 +73,25 @@ public class Controller {
     }
 
     /**
+     * Handles finding the next trips through a stop_id
+     * timeVarianceMinutes is set to 30 for now but user input will be implemented later
+     */
+    public void searchNextTrips() {
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime current = LocalTime.now();
+        textArea.setText(TD.GetNextTrips(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 30));
+    }
+
+    /**
      * Controller for the upload file button
      * Dumps the uploaded file to the screen after loading it in
      *
      * @return true if the upload was successful
      */
     public boolean uploadFiles() {
+        Observer tranTable = new TransitTable(textArea);
+        TD.attach(tranTable);
+
         boolean success;
         String filename;
         int correct = 0;

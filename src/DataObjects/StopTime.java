@@ -38,7 +38,7 @@ public class StopTime implements GTFSData{
 	}
 
 	/**
-	 * A better toString for the data dumb for lab 5
+	 * A better toString for the data dump for lab 5
 	 * @return a text representation of the data in the stopTime object
 	 */
 	public String toString(){
