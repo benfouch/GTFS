@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,13 +36,6 @@ public class TransitData implements Subject {
     private List<GTFSData> timesList;
     private HashMap<Object, GTFSData> trips;
     private List<GTFSData> tripsList;
-    private Stop m_Stop;
-    private Controller m_Controller;
-    private StopTime m_StopTime;
-    private Trip m_Trip;
-    private Route m_Route;
-    private TransitTable m_TransitTable;
-    private Map m_Map;
     private HashMap<Object, GTFSData> gtfsMap;
     private List<GTFSData> gtfsList;
     private List<String> loadedStructures = new LinkedList<>();
@@ -456,7 +452,41 @@ public class TransitData implements Subject {
     }
 
     /**
-     * Get the number of routes that go thorough a stop
+     * This method takes a stop_id of a stop in order to find the next trips leaving from that stop. A currentTime is
+     * given, which acts as the lowest time interval value and a timeVarianceMinutes is given which represents how many
+     * minutes after the starting time interval should be consider when searching for trips. For example, if the
+     * currentTime is 5:30 and the timeVarianceMinutes is 20, then all the trips that are departing between 5:30 and
+     * 5:50 will be retrieved and returned as a string.
+     * @author - Ethan White
+     * @param stop_id - the stop_id of the stop used to search for trips
+     * @param currentTime - the lowest time interval
+     * @param timeVarianceMinutes - an int representing the minutes after the starting time interval to consider trips
+     * @return - a string containing a trip_id and its corresponding departure time for each line
+     */
+    public String GetNextTrips(String stop_id, String currentTime, int timeVarianceMinutes) {
+        Calendar cal = Calendar.getInstance();
+
+        Time ending = Time.valueOf(currentTime);
+
+        cal.setTime(ending);
+        cal.add(Calendar.MINUTE, timeVarianceMinutes);
+
+        ending.setTime(cal.getTimeInMillis());
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        String endTime = form.format(ending.toLocalTime());
+
+        StringBuilder sb = new StringBuilder();
+        for (GTFSData stopTime : timesList) {
+            if (stopTime.getValues()[3].equals(stop_id)) {
+                if (stopTime.getValues()[2].compareTo(currentTime) > -1 && stopTime.getValues()[2].compareTo(endTime) < 1) {
+                    sb.append(stopTime.getValues()[0] + ", " + stopTime.getValues()[2] + "\n");
+                }
+            }
+        }
+        return sb.toString();
+
+     /* Get the number of routes that go thorough a stop
      *
      * @param stop_id the stop id to search on
      * @return the number of routes that go through the stop

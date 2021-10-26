@@ -16,6 +16,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -59,6 +61,16 @@ public class Controller {
 
     public void searchRoutesThroughStop() {
         textArea.setText(TD.getRoutesThroughStop(searchBar_stop_ID_routes.getCharacters().toString()));
+    }
+
+    /**
+     * Handles finding the next trips through a stop_id
+     * timeVarianceMinutes is set to 30 for now but user input will be implemented later
+     */
+    public void searchNextTrips() {
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime current = LocalTime.now();
+        textArea.setText(TD.GetNextTrips(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 30));
     }
 
     /**

@@ -218,6 +218,30 @@ class TransitDataTest {
         assertFalse(TransitData.isTripsLine(split(onlyID)));
     }
 
+    /**
+     * Tests GetNextTrips methods ability to retrieve trips within the time interval for a stop
+     * Test case 1: The returned string of trips should be empty if no stop_id is given because no stop could be found
+     *              without a stop_id
+     * Test case 2: The returned string of trips for a 0 timeVarianceMinutes for stop_id 9113 should contain two stops
+     *              that have departure times that are equal to the current time
+     * Test case 3: The returned string of trips should be empty if the timeVarianceMinutes is negative because no
+     *              departure time would fall between the current time and a time in the past
+     * Test case 4: The returned string of trips for stop_id 9113, currentTime as 8:50:00, and timeVarianceMinutes as 10
+     *              should contain 6 lines with trips in each in the order they appear from the stop times GTFS document
+     * Written by: Ethan White
+     */
+    @Test
+    void testGetNextTrips(){
+        String case1 = "";
+        String case2 = "21860372_4571, 08:50:00\n21860387_888, 08:50:00\n";
+        String case3 = "21736564_2535, 08:51:00\n21736573_551, 08:51:00\n21849820_1011, 08:57:00\n21858756_642, " +
+                "08:59:00\n21860372_4571, 08:50:00\n21860387_888, 08:50:00\n";
+        assertEquals(case1, TD.GetNextTrips("","08:50:00", 10));
+        assertEquals(case2, TD.GetNextTrips("9113","08:50:00", 0));
+        assertEquals(case1, TD.GetNextTrips("9113","08:50:00", -1));
+        assertEquals(case3, TD.GetNextTrips("9113","08:50:00", 10));
+
+    }
     //region not implemented
     @Test
     void testFinalize() {
