@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TransitDataTest {
 
     TransitData TD = new TransitData();
+
     @BeforeEach
     void setUp() {
         try{
@@ -32,6 +34,13 @@ class TransitDataTest {
         }
     }
 
+    /**
+     * tests the getRoutesThroughStop method in transit data
+     * case 1 : normal and correct input
+     * case 2 : A second normal output with a different result
+     * case 3 : A fully incorrect input
+     * case 4 : A bad, but correctly formatted input (bad because it is not in the files we use for testing)
+     */
     @Test
     void testGetRoutesThroughStop(){
        String normalInput = "4340";
@@ -111,65 +120,102 @@ class TransitDataTest {
     }
 
     /**
-     * @author Ethan White
      *  Tests isStopsLine method to check the validity of a line within a stops file
-     *  Test case 1: Valid line should return true
-     *  Test case 2: Invalid line should return false
      */
     @Test
     void testIsStopsLine(){
-        ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("6712,STATE & 5101 #6712,,43.0444475,-87.9779369".split(",")));
-        ArrayList<String> invalidInput = new ArrayList<String>(Arrays.asList("6712,,,43.0444475,".split(",")));
+        // Valid
+        String validInput = "6712,STATE & 5101 #6712,,43.0444475,-87.9779369";
+        String minimumData = "6712,,,43.0444475,-87.9779369";
 
-        assertTrue(TransitData.isStopsLine(validInput));
-        assertFalse(TransitData.isStopsLine(invalidInput));
+        // Invalid
+        String invalidInput = "Bad";
+        String emptyLine = "";
+        String onlyID = "6712,,,,";
+
+        assertTrue(TransitData.isStopTimesLine(split(validInput)));
+        assertTrue(TransitData.isStopTimesLine(split(minimumData)));
+
+        assertFalse(TransitData.isStopTimesLine(split(invalidInput)));
+        assertFalse(TransitData.isStopTimesLine(split(emptyLine)));
+        assertFalse(TransitData.isStopTimesLine(split(onlyID)));
     }
 
     /**
-     * @author Ethan White
-     *  Tests isStopsTimesLine method to check the validity of a line within a stop_times file
-     *  Test case 1: Valid line should return true
-     *  Test case 2: Invalid line should return false
+     * @author Ben Fouch
+     *  Tests isStopsTimesLine method to check the validity of a line within a stop_times filee
      */
     @Test
     void testIsStopTimesLine(){
-        ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("21736564_2535,08:51:00,08:51:00,9113,1,,0,0".split(",")));
-        ArrayList<String> invalidInput = new ArrayList<String>(Arrays.asList("21736564_2535,,,9113,,,,".split(",")));
+        // Valid
+        String validInput = "21736564_2535,08:51:00,08:51:00,9113,1,,0,0";
+        String minimumData = "21736564_2535,,,9113,1,,,";
+        String noTrailingCommas = "21736564_2535,,,9113,1";
 
-        assertTrue(TransitData.isStopTimesLine(validInput));
-        assertFalse(TransitData.isStopTimesLine(invalidInput));
+        // Invalid
+        String invalidInput = "21736564_2535,,,9113,,,,";
+        String emptyLine = "";
+        String onlyID = "21736564_2535,,,,,,,";
+
+        assertTrue(TransitData.isStopTimesLine(split(validInput)));
+        assertTrue(TransitData.isStopTimesLine(split(minimumData)));
+        assertTrue(TransitData.isStopTimesLine(split(noTrailingCommas)));
+
+        assertFalse(TransitData.isStopTimesLine(split(invalidInput)));
+        assertFalse(TransitData.isStopTimesLine(split(emptyLine)));
+        assertFalse(TransitData.isStopTimesLine(split(onlyID)));
     }
 
     /**
-     * @author Ethan White
      *  Tests isRoutesLine method to check the validity of a line within a routes file
-     *  Test case 1: Valid line should return true
-     *  Test case 2: Invalid line should return false
      */
 
     @Test
     void testIsRoutesLine(){
-        ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("12,MCTS,12,Teutonia-Hampton,,3,,008345, ".split(",")));
-        ArrayList<String> invalidInput = new ArrayList<String>(Arrays.asList("12,,,,3,,,,".split(",")));
+        // Valid
+        String validInput = "12,MCTS,12,Teutonia-Hampton,,3,,008345,";
+        String minimumData = "12,,,,,,,008345,";
+        String noTrailingCommas = "12,,,,,,,008345";
 
-        assertTrue(TransitData.isRoutesLine(validInput));
-        assertFalse(TransitData.isRoutesLine(invalidInput));
+        // Invalid
+        String invalidInput = "bad";
+        String emptyLine = "";
+        String onlyID = "12,,,,,,,,";
+
+        assertTrue(TransitData.isRoutesLine(split(validInput)));
+        assertTrue(TransitData.isRoutesLine(split(minimumData)));
+        assertTrue(TransitData.isRoutesLine(split(noTrailingCommas)));
+
+        assertFalse(TransitData.isRoutesLine(split(invalidInput)));
+        assertFalse(TransitData.isRoutesLine(split(emptyLine)));
+        assertFalse(TransitData.isRoutesLine(split(onlyID)));
     }
 
 
     /**
-     * @author Ethan White
      * Tests isTripsLine method to check the validity of a line within a trips file
      * Test case 1: Valid line should return true
      * Test case 2: Invalid line should return false
      */
     @Test
     void testIsTripsLine(){
-        ArrayList<String> validInput = new ArrayList<String>(Arrays.asList("64,17-SEP_SUN,21736564_2535,60TH-VLIET,0,64102,17-SEP_64_0_23".split(",")));
-        ArrayList<String> invalidInput = new ArrayList<String>(Arrays.asList("64,,,60TH-VLIET,,,".split(",")));
+        // Valid
+        String validInput = "64,17-SEP_SUN,21736564_2535,60TH-VLIET,0,64102,17-SEP_64_0_23";
+        String minimumData = "64,,21736564_2535,,,,";
+        String noTrailingCommas = "64,,21736564_2535";
 
-        assertTrue(TransitData.isTripsLine(validInput));
-        assertFalse(TransitData.isTripsLine(invalidInput));
+        // Invalid
+        String invalidInput = "bad";
+        String emptyLine = "";
+        String onlyID = "64,,,,,,";
+
+        assertTrue(TransitData.isTripsLine(split(validInput)));
+        assertTrue(TransitData.isTripsLine(split(minimumData)));
+        assertTrue(TransitData.isTripsLine(split(noTrailingCommas)));
+
+        assertFalse(TransitData.isTripsLine(split(invalidInput)));
+        assertFalse(TransitData.isTripsLine(split(emptyLine)));
+        assertFalse(TransitData.isTripsLine(split(onlyID)));
     }
 
     //region not implemented
@@ -225,4 +271,10 @@ class TransitDataTest {
     void uploadFiles() {
     }
     //endregion
+
+    private List<String> split(String line){
+        List<String> returnVar = new ArrayList<>(Arrays.asList(line.split(",")));
+        returnVar.add("");
+        return returnVar;
+    }
 }
