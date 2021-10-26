@@ -43,6 +43,7 @@ public class TransitData implements Subject {
     private HashMap<Object, GTFSData> gtfsMap;
     private List<GTFSData> gtfsList;
     private List<String> loadedStructures = new LinkedList<>();
+    private List<Observer> observers = new LinkedList<>();
     //endregion
 
     //region not Implemented
@@ -53,7 +54,7 @@ public class TransitData implements Subject {
      * @param observer
      */
     public void attach(Observer observer) {
-
+        observers.add(observer);
     }
 
     /**
@@ -65,11 +66,10 @@ public class TransitData implements Subject {
 
     }
 
-    /**
-     * not Implemented
-     */
     public void notifyObservers() {
-
+        for (Observer ob : observers){
+            ob.notifyObserver(tripsList, timesList, stopsList, routeList);
+        }
     }
 
     public boolean exportFiles() {
@@ -182,6 +182,7 @@ public class TransitData implements Subject {
             return -1;
         }
         setDataStructures(fileName);
+        notifyObservers();
         return numSkipped;
     }
 
