@@ -461,7 +461,7 @@ public class TransitData implements Subject {
      * @param timeVarianceMinutes - an int representing the minutes after the starting time interval to consider trips
      * @return - a string containing a trip_id and its corresponding departure time for each line
      */
-    public String GetNextTrip(String stop_id, String currentTime, int timeVarianceMinutes) {
+    public String GetNextTrips(String stop_id, String currentTime, int timeVarianceMinutes) {
         Calendar cal = Calendar.getInstance();
 
         Time ending = Time.valueOf(currentTime);

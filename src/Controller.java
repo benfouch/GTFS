@@ -65,7 +65,7 @@ public class Controller {
     public void searchNextTrips() {
         DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalTime current = LocalTime.now();
-        textArea.setText(TD.GetNextTrip(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 30));
+        textArea.setText(TD.GetNextTrips(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 30));
     }
 
     /**
