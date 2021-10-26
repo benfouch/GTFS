@@ -8,15 +8,14 @@
 
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The Controller for the main gui
@@ -29,14 +28,10 @@ public class Controller {
     private final TransitData TD = new TransitData();
 
     @FXML
+    TableView transitTable;
+
+    @FXML
     TextArea textArea;
-
-    @FXML
-    TextField searchBar_stop_ID;
-
-    @FXML
-    TextField searchBar_stop_ID_routes;
-
 
     public boolean editTransitTable() {
         return false;
@@ -54,11 +49,25 @@ public class Controller {
      * handles find the number of trips through a stop
      */
     public void searchTripsThroughStop() {
-        textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Trips Through StopID");
+        dialog.setHeaderText("Search for the number of Trips that go through a certain Stop");
+        dialog.setContentText("Please enter a Stop_ID:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getTripsOnStop(result.get()));
+        }
     }
 
     public void searchRoutesThroughStop() {
-        textArea.setText(TD.getRoutesThroughStop(searchBar_stop_ID_routes.getCharacters().toString()));
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Routes Through StopID");
+        dialog.setHeaderText("Search for the number of Routes that go through a certain Stop");
+        dialog.setContentText("Please enter a Stop_ID:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getRoutesThroughStop(result.get()));
+        }
     }
 
     /**

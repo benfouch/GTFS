@@ -6,6 +6,8 @@
  * Created: 07-Oct-2021
  */
 
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 
 /**
  * @author zuberih
@@ -14,11 +16,11 @@
  */
 public class TransitTable implements Observer {
 
+	@FXML
+	TextArea textArea;
+
+
 	public TransitTable(){
-
-	}
-
-	public void finalize() throws Throwable {
 
 	}
 

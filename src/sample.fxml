@@ -1,63 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
-        <HBox layoutX="-1.0" prefHeight="400.0" prefWidth="600.0">
-            <children>
-                <VBox alignment="CENTER" prefHeight="400.0" prefWidth="184.0">
-                    <children>
-                        <Button fx:id="UploadFiles" mnemonicParsing="false" onAction="#uploadFiles" prefHeight="46.0" prefWidth="120.0" text="Import Files">
-                            <VBox.margin>
-                                <Insets bottom="30.0" top="30.0" />
-                            </VBox.margin>
-                        </Button>
-                  <Button fx:id="ExportFiles" mnemonicParsing="false" onAction="#exportFiles" prefHeight="46.0" prefWidth="120.0" text="Export Files">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets bottom="30.0" />
-                     </VBox.margin>
-                  </Button>
-                        <Button fx:id="EditTransitTable" mnemonicParsing="false" onAction="#editTransitTable" prefHeight="46.0" prefWidth="120.0" text="Edit Transit Table">
-                            <VBox.margin>
-                                <Insets bottom="30.0" />
-                            </VBox.margin>
-                        </Button>
-                        <Button fx:id="OpenTransitTable" mnemonicParsing="false" onAction="#openTransitTable" prefHeight="46.0" prefWidth="120.0" text="Open Transit Table">
-                            <VBox.margin>
-                                <Insets bottom="30.0" />
-                            </VBox.margin>
-                        </Button>
-                        <Button fx:id="OpenMap" mnemonicParsing="false" onAction="#openMap" prefHeight="46.0" prefWidth="120.0" text="Open Map">
-                            <VBox.margin>
-                                <Insets bottom="30.0" />
-                            </VBox.margin>
-                        </Button>
-                    </children>
-                    <HBox.margin>
-                        <Insets />
-                    </HBox.margin>
-                </VBox>
-            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="184.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search trips on a stop_id" />
-                  <TextField fx:id="searchBar_stop_ID" onAction="#searchTripsThroughStop" promptText="Enter Stop_ID" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search routes on a stop_id" />
-                  <TextField fx:id="searchBar_stop_ID_routes" onAction="#searchRoutesThroughStop" promptText="Enter Stop_ID" />
-               </children>
-            </VBox>
-                <TextArea fx:id="textArea" editable="false" prefHeight="400.0" prefWidth="269.0" />
-            </children>
-        </HBox>
+      <BorderPane prefHeight="640.0" prefWidth="867.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem fx:id="uploadFiles" mnemonicParsing="false" onAction="#uploadFiles" text="Import Files" />
+                        <MenuItem fx:id="exportFiles" mnemonicParsing="false" onAction="#exportFiles" text="Export Files" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem fx:id="editTransitTable" mnemonicParsing="false" onAction="#editTransitTable" text="Edit Transit Table" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="View">
+                     <items>
+                        <MenuItem fx:id="openTransitTable" mnemonicParsing="false" onAction="#openTransitTable" text="Open Transit Table" />
+                        <MenuItem fx:id="openMap" mnemonicParsing="false" onAction="#openMap" text="Open Map" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Search">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#searchTripsThroughStop" text="Search Trips On A Stop_ID" />
+                        <MenuItem mnemonicParsing="false" onAction="#searchRoutesThroughStop" text="Search Routes On A Stop_ID" />
+                     </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+              <HBox prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                  <children>
+                  <TextArea fx:id="textArea" prefHeight="615.0" prefWidth="301.0" />
+                  <TabPane prefHeight="615.0" prefWidth="566.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab closable="false" text="Stops">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextArea fx:id="stopsTextArea" prefHeight="588.0" prefWidth="566.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab closable="false" text="Trips">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextArea fx:id="tripsTextArea" prefHeight="587.0" prefWidth="566.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                        <Tab closable="false" text="Routes">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextArea fx:id="routesTextArea" prefHeight="586.0" prefWidth="566.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab closable="false" text="Stop Times">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextArea fx:id="stoptimesTextArea" prefHeight="586.0" prefWidth="567.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+                  </children>
+              </HBox>
+         </center>
+      </BorderPane>
     </children>
 </Pane>
