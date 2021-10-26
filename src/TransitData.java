@@ -485,7 +485,7 @@ public class TransitData implements Subject {
             }
         }
         return sb.toString();
-
+    }
      /* Get the number of routes that go thorough a stop
      *
      * @param stop_id the stop id to search on

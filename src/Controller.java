@@ -26,8 +26,13 @@ import java.util.Optional;
  * @version 1.0
  * @created 07-Oct-2021 11:05:21 AM
  */
+
 public class Controller {
     private final TransitData TD = new TransitData();
+    public TextArea stopsTextArea;
+    public TextArea tripsTextArea;
+    public TextArea routesTextArea;
+    public TextArea stoptimesTextArea;
 
     @FXML
     TableView transitTable;
@@ -79,7 +84,20 @@ public class Controller {
     public void searchNextTrips() {
         DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalTime current = LocalTime.now();
-        textArea.setText(TD.GetNextTrips(searchBar_stop_ID_nextTrip.getCharacters().toString(), form.format(current), 30));
+        TextInputDialog time = new TextInputDialog();
+        time.setTitle("Time Frame");
+        time.setHeaderText("Enter a time frame in minutes");
+        time.setContentText("Please enter time frame:");
+        Optional<String> timeFrame = time.showAndWait();
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Routes Through StopID");
+        dialog.setHeaderText("Search for the number of Routes that go through a certain Stop");
+        dialog.setContentText("Please enter a Stop_ID:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.GetNextTrips(result.get(), form.format(current), Integer.parseInt(timeFrame.get())));
+        }
+
     }
 
     /**
@@ -89,7 +107,7 @@ public class Controller {
      * @return true if the upload was successful
      */
     public boolean uploadFiles() {
-        Observer tranTable = new TransitTable(textArea);
+        Observer tranTable = new TransitTable(stopsTextArea, tripsTextArea, routesTextArea, stoptimesTextArea);
         TD.attach(tranTable);
 
         boolean success;

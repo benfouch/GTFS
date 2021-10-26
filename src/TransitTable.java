@@ -13,6 +13,7 @@ import DataObjects.GTFSData;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,10 +24,16 @@ import java.util.List;
  */
 public class TransitTable implements Observer {
 
-	TextArea textArea;
+	public TextArea stopsTextArea;
+	public TextArea tripsTextArea;
+	public TextArea routesTextArea;
+	public TextArea stoptimesTextArea;
 
-	public TransitTable(TextArea area){
-		textArea = area;
+	public TransitTable(TextArea stopsTextArea, TextArea tripsTextArea, TextArea routesTextArea, TextArea stoptimesTextArea){
+		this.stopsTextArea = stopsTextArea;
+		this.routesTextArea = routesTextArea;
+		this.tripsTextArea = tripsTextArea;
+		this.stoptimesTextArea = stoptimesTextArea;
 	}
 
 	public void createUserInterface(){
@@ -58,9 +65,14 @@ public class TransitTable implements Observer {
 		}
 
 		//	Set tripsOut box
+		tripsTextArea.setText(tripsOut);
 		//	Set stopTimesOut box
+		stoptimesTextArea.setText(stopTimesOut);
 		//	Set stopsOut box
+		stopsTextArea.setText(stopsOut);
 		//	Set routesOut box
+		routesTextArea.setText(routesOut);
+
 	}
 
 	public void updateDisplay(){

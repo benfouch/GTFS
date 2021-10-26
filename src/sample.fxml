@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="867.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller">
     <children>
       <BorderPane prefHeight="640.0" prefWidth="867.0">
          <top>
@@ -38,6 +38,7 @@
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#searchTripsThroughStop" text="Search Trips On A Stop_ID" />
                         <MenuItem mnemonicParsing="false" onAction="#searchRoutesThroughStop" text="Search Routes On A Stop_ID" />
+                         <MenuItem mnemonicParsing="false" onAction="#searchNextTrips" text="Search Upcoming Trips" />
                      </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
