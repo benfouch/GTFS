@@ -43,6 +43,7 @@ public class TransitTable implements Observer {
 	@Override
 	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
 							   List<GTFSData> stops, List<GTFSData> routes) {
+		StringBuilder listText = new StringBuilder();
 		String tripsOut = "";
 		String stopTimesOut = "";
 		String stopsOut = "";
@@ -55,7 +56,8 @@ public class TransitTable implements Observer {
 		}
 		if (stopTimes != null){
 			for (GTFSData data : stopTimes) {
-				stopTimesOut += data.toString() + "\n";
+				listText.append(data.toString()).append("\n");
+				//stopTimesOut += data.toString() + "\n";
 			}
 		}
 		if (stops != null){
@@ -72,11 +74,13 @@ public class TransitTable implements Observer {
 		//	Set tripsOut box
 		tripsTextArea.setText(tripsOut);
 		//	Set stopTimesOut box
-		stoptimesTextArea.setText(stopTimesOut);
+		//stoptimesTextArea.setText(stopTimesOut);
+		stoptimesTextArea.setText(listText.toString());
 		//	Set stopsOut box
 		stopsTextArea.setText(stopsOut);
 		//	Set routesOut box
 		routesTextArea.setText(routesOut);
+
 
 	}
 
