@@ -7,6 +7,11 @@
  */
 
 
+import DataObjects.GTFSData;
+
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * @author zuberih
  * @version 1.0
@@ -16,6 +21,7 @@ public interface Observer {
 
 	public Subject subject = null;
 
-	public void notifyObserver();
 
+    void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
+                        List<GTFSData> stops, List<GTFSData> routes);
 }

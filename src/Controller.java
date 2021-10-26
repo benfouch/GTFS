@@ -8,8 +8,7 @@
 
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 
 import javax.swing.JOptionPane;
@@ -17,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The Controller for the main gui
@@ -25,15 +25,20 @@ import java.util.List;
  * @version 1.0
  * @created 07-Oct-2021 11:05:21 AM
  */
+
 public class Controller {
     private MainGUI m_MainGUI;
     private final TransitData TD = new TransitData();
+    public TextArea stopsTextArea;
+    public TextArea tripsTextArea;
+    public TextArea routesTextArea;
+    public TextArea stoptimesTextArea;
+
+    @FXML
+    TableView transitTable;
 
     @FXML
     TextArea textArea;
-
-    @FXML
-    TextField searchBar_stop_ID;
 
     public boolean editTransitTable() {
         return false;
@@ -51,7 +56,48 @@ public class Controller {
      * handles find the number of trips through a stop
      */
     public void searchTripsThroughStop() {
-        textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Trips Through StopID");
+        dialog.setHeaderText("Search for the number of Trips that go through a certain Stop");
+        dialog.setContentText("Please enter a Stop_ID:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getTripsOnStop(result.get()));
+        }
+    }
+
+    public void searchRoutesThroughStop() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Routes Through StopID");
+        dialog.setHeaderText("Search for the number of Routes that go through a certain Stop");
+        dialog.setContentText("Please enter a Stop_ID:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getRoutesThroughStop(result.get()));
+        }
+    }
+
+    /**
+     * Handles finding the next trips through a stop_id
+     * timeVarianceMinutes is set to 30 for now but user input will be implemented later
+     */
+    public void searchNextTrips() {
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime current = LocalTime.now();
+        TextInputDialog time = new TextInputDialog();
+        time.setTitle("Time Frame");
+        time.setHeaderText("Enter a time frame in minutes");
+        time.setContentText("Please enter time frame:");
+        Optional<String> timeFrame = time.showAndWait();
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Routes Through StopID");
+        dialog.setHeaderText("Search for the number of Routes that go through a certain Stop");
+        dialog.setContentText("Please enter a Stop_ID:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.GetNextTrips(result.get(), form.format(current), Integer.parseInt(timeFrame.get())));
+        }
+
     }
 
     /**
@@ -61,6 +107,9 @@ public class Controller {
      * @return true if the upload was successful
      */
     public boolean uploadFiles() {
+        Observer tranTable = new TransitTable(stopsTextArea, tripsTextArea, routesTextArea, stoptimesTextArea);
+        TD.attach(tranTable);
+
         boolean success;
         String filename;
         int correct = 0;
@@ -84,26 +133,14 @@ public class Controller {
                     correct += 1;
                     fileCount--;
                     showAlert("File " + filename + " uploaded with [" + numSkipped + "] " +
-                            "lines skipped. \n" + fileCount + " files left to process.");
-                } catch (Exception e){
-                    showAlert(e.getMessage());
+                            "lines skipped. \n" + fileCount + " files left to process.", "Upload progress: ");
+                } catch (Exception e) {
+                    showAlert(e.getMessage(), "Error");
                 }
-
-            }
-            if (filename.equals("routes.txt")) {
-                textArea.setText(TD.routes.toString());
-            }
-            if (filename.equals("stops.txt")) {
-                textArea.setText(TD.stops.toString());
-            }
-            if (filename.equals("stop_times.txt")) {
-                textArea.setText(TD.stopTimes.toString());
-            }
-            if (filename.equals("trips.txt")) {
-                textArea.setText(TD.trips.toString());
             }
         }
         success = correct == files.size();
+        TD.notifyObservers();
         return success;
     }
 
