@@ -37,7 +37,8 @@ public class Controller {
     TextField searchBar_stop_ID;
 
     @FXML
-    TextField searchBar_stop_ID_nextTrip;
+    TextField searchBar_stop_ID_routes;
+
 
     public boolean editTransitTable() {
         return false;
@@ -58,6 +59,10 @@ public class Controller {
         textArea.setText(TD.getTripsOnStop(searchBar_stop_ID.getCharacters().toString()));
     }
 
+    public void searchRoutesThroughStop() {
+        textArea.setText(TD.getRoutesThroughStop(searchBar_stop_ID_routes.getCharacters().toString()));
+    }
+
     /**
      * Handles finding the next trips through a stop_id
      * timeVarianceMinutes is set to 30 for now but user input will be implemented later
@@ -75,6 +80,9 @@ public class Controller {
      * @return true if the upload was successful
      */
     public boolean uploadFiles() {
+        Observer tranTable = new TransitTable(textArea);
+        TD.attach(tranTable);
+
         boolean success;
         String filename;
         int correct = 0;

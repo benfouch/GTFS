@@ -7,6 +7,13 @@
  */
 
 
+import DataObjects.GTFSData;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * @author zuberih
  * @version 1.0
@@ -14,20 +21,44 @@
  */
 public class TransitTable implements Observer {
 
-	public TransitTable(){
+	TextArea textArea;
 
-	}
-
-	public void finalize() throws Throwable {
-
+	public TransitTable(TextArea area){
+		textArea = area;
 	}
 
 	public void createUserInterface(){
 
 	}
 
-	public void notifyObserver(){
+	@Override
+	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
+							   List<GTFSData> stops, List<GTFSData> routes) {
+		String tripsOut = "";
+		String stopTimesOut = "";
+		String stopsOut = "";
+		String routesOut = "";
 
+		for (GTFSData data : trips) {
+			tripsOut += data.toString() + "\n";
+		}
+
+		for (GTFSData data : stopTimes) {
+			stopTimesOut += data.toString() + "\n";
+		}
+
+		for (GTFSData data : stops) {
+			stopsOut += data.toString() + "\n";
+		}
+
+		for (GTFSData data : routes) {
+			routesOut += data.toString() + "\n";
+		}
+
+		//	Set tripsOut box
+		//	Set stopTimesOut box
+		//	Set stopsOut box
+		//	Set routesOut box
 	}
 
 	public void updateDisplay(){
