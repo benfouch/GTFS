@@ -48,20 +48,25 @@ public class TransitTable implements Observer {
 		String stopsOut = "";
 		String routesOut = "";
 
-		for (GTFSData data : trips) {
-			tripsOut += data.toString() + "\n";
+		if (trips != null){
+			for (GTFSData data : trips) {
+				tripsOut += data.toString() + "\n";
+			}
 		}
-
-		for (GTFSData data : stopTimes) {
-			stopTimesOut += data.toString() + "\n";
+		if (stopTimes != null){
+			for (GTFSData data : stopTimes) {
+				stopTimesOut += data.toString() + "\n";
+			}
 		}
-
-		for (GTFSData data : stops) {
-			stopsOut += data.toString() + "\n";
+		if (stops != null){
+			for (GTFSData data : stops) {
+				stopsOut += data.toString() + "\n";
+			}
 		}
-
-		for (GTFSData data : routes) {
-			routesOut += data.toString() + "\n";
+		if (routes != null){
+			for (GTFSData data : routes) {
+				routesOut += data.toString() + "\n";
+			}
 		}
 
 		//	Set tripsOut box

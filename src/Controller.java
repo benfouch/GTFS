@@ -133,25 +133,13 @@ public class Controller {
                     fileCount--;
                     showAlert("File " + filename + " uploaded with [" + numSkipped + "] " +
                             "lines skipped. \n" + fileCount + " files left to process.", "Upload progress: ");
-                } catch (Exception e){
+                } catch (Exception e) {
                     showAlert(e.getMessage(), "Error");
                 }
-
-            }
-            if (filename.equals("routes.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
-            }
-            if (filename.equals("stops.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
-            }
-            if (filename.equals("stop_times.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
-            }
-            if (filename.equals("trips.txt")) {
-                textArea.setText(TD.getDataMaps(filename).toString());
             }
         }
         success = correct == files.size();
+
         return success;
     }
 
