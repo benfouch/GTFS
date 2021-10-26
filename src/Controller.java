@@ -68,6 +68,9 @@ public class Controller {
      * @return true if the upload was successful
      */
     public boolean uploadFiles() {
+        Observer tranTable = new TransitTable(textArea);
+        TD.attach(tranTable);
+
         boolean success;
         String filename;
         int correct = 0;

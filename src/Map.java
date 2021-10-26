@@ -7,6 +7,11 @@
  */
 
 
+import DataObjects.GTFSData;
+
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * @author zuberih
  * @version 1.0
@@ -34,4 +39,8 @@ public class Map implements Observer {
 
 	}
 
+	@Override
+	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes, List<GTFSData> stops, List<GTFSData> routes) {
+
+	}
 }
