@@ -16,7 +16,6 @@ import java.util.List;
  * @created 07-Oct-2021 11:02:21 AM
  */
 public class Stop implements GTFSData{
-
 	private final String stop_desc;
 	private final String stop_id;
 	private final String stop_lat;

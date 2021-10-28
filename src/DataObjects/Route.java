@@ -17,7 +17,6 @@ import java.util.List;
  * @created 07-Oct-2021 11:02:19 AM
  */
 public class Route implements GTFSData {
-
     private final String agency_id;
     private final String route_color;
     private final String route_desc;

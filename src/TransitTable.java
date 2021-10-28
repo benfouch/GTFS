@@ -6,15 +6,9 @@
  * Created: 07-Oct-2021
  */
 
-import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 import DataObjects.GTFSData;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-
-import javax.swing.*;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -77,7 +71,6 @@ public class TransitTable implements Observer {
 		stopsTextArea.setText(stopsOut);
 		//	Set routesOut box
 		routesTextArea.setText(routesOut);
-
 	}
 
 	public void updateDisplay(){

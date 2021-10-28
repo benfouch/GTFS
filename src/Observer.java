@@ -21,7 +21,6 @@ public interface Observer {
 
 	public Subject subject = null;
 
-
     void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
                         List<GTFSData> stops, List<GTFSData> routes);
 }

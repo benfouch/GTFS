@@ -17,7 +17,6 @@ import java.util.List;
  * @created 07-Oct-2021 11:02:32 AM
  */
 public class Trip implements GTFSData {
-
     private final String block_id;
     private final String direction_id;
     private final String route_id;

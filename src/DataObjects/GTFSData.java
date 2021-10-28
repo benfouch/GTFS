@@ -6,5 +6,4 @@ public interface GTFSData {
     String getHeader();
     String getKey();
     String[] getValues();
-
 }

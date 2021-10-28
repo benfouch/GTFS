@@ -15,7 +15,6 @@ import java.util.List;
  * @created 07-Oct-2021 11:02:23 AM
  */
 public class StopTime implements GTFSData{
-
 	private final String arrival_time;
 	private final String departure_time;
 	private final String drop_off_type;
