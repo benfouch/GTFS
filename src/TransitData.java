@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Time;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,8 +35,8 @@ public class TransitData implements Subject {
     private List<GTFSData> tripsList;
     private HashMap<Object, GTFSData> gtfsMap;
     private List<GTFSData> gtfsList;
-    private List<String> loadedStructures = new LinkedList<>();
-    private List<Observer> observers = new LinkedList<>();
+    private final List<String> loadedStructures = new LinkedList<>();
+    private final List<Observer> observers = new LinkedList<>();
     //endregion
 
     //region not Implemented
@@ -248,11 +250,11 @@ public class TransitData implements Subject {
             case "routes.txt":
                 return isRoutesLine(firstLine);
             case "stop_times.txt":
-                return isStopTimesLine((ArrayList<String>) firstLine);
+                return isStopTimesLine(firstLine);
             case "stops.txt":
                 return isStopsLine((ArrayList<String>) firstLine);
             case "trips.txt":
-                return isTripsLine((ArrayList<String>) firstLine);
+                return isTripsLine(firstLine);
         }
         return false;
     }
@@ -510,7 +512,9 @@ public class TransitData implements Subject {
                     matchingRoutes.add(trip.getValues()[0]);
                 }
             }
+
             return matchingRoutes.size() + "";
+
         } else {
             return "Please load in all files first";
         }

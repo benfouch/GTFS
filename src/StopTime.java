@@ -18,28 +18,26 @@ import java.util.List;
  */
 public class StopTime implements GTFSData{
 
-	public Time arrival_time;
-	public Time departure_time;
-	public int drop_off_type;
-	public int pickup_type;
-	public int stop_headsign;
-	public int stop_id;
-	public int stop_sequence;
-	public float trip_id;
+	private final String arrival_time;
+	private final String departure_time;
+	private final String drop_off_type;
+	private final String pickup_type;
+	private final String stop_headsign;
+	private final String stop_id;
+	private final String stop_sequence;
+	private final String trip_id;
 
 	public StopTime(List<String> params) {
 		int i = 0;
-		String trip_idString = !params.get(i).equals("") ? params.get(i).split("_")[0] + "." + params.get(i++).split("_")[1] : "";
-		this.trip_id = makeFloat(trip_idString);
-		this.arrival_time = params.get(i).equals("") ? null :Time.valueOf(params.get(i++));
-		this.departure_time = params.get(i).equals("") ? null :Time.valueOf(params.get(i++));
-		this.stop_id = (int)makeFloat(params.get(i++));
-		this.stop_sequence = (int)makeFloat(params.get(i++));
-		this.pickup_type = (int)makeFloat(params.get(i++));
-		this.stop_headsign = (int)makeFloat(params.get(i++));
-		this.drop_off_type = (int)makeFloat(params.get(i));
+		this.trip_id = params.get(i++);
+		this.arrival_time = params.get(i++);
+		this.departure_time = params.get(i++);
+		this.stop_id = params.get(i++);
+		this.stop_sequence = params.get(i++);
+		this.pickup_type = params.get(i++);
+		this.stop_headsign = params.get(i++);
+		this.drop_off_type = params.get(i);
 	}
-
 	/**
 	 * A better toString for the data dumb for lab 5
 	 * @return a text representation of the data in the stopTime object
@@ -61,15 +59,6 @@ public class StopTime implements GTFSData{
 				"stop_headsign,pickup_type,drop_off_type\n";
 	}
 
-	/**
-	 * A helper to make the data parsing a bit cleaner
-	 * @param value the value to be parsed
-	 * @return the parsed value
-	 */
-	private float makeFloat(String value){
-		return value.equals("") ? -1 : Float.parseFloat(value);
-	}
-
 	@Override
 	public String getKey() {
 		return String.valueOf(trip_id);
@@ -77,6 +66,6 @@ public class StopTime implements GTFSData{
 
 	@Override
 	public String[] getValues() {
-		return new String[]{String.valueOf(trip_id), String.valueOf(arrival_time), String.valueOf(departure_time), String.valueOf(stop_id), String.valueOf(stop_sequence), String.valueOf(pickup_type), String.valueOf(stop_headsign), String.valueOf(drop_off_type)};
+		return toString().split(",");
 	}
 }

@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -139,6 +141,7 @@ public class Controller {
                 }
             }
         }
+
         success = correct == files.size();
         TD.notifyObservers();
         return success;
@@ -166,9 +169,11 @@ public class Controller {
         return true;
     }
 
+    public void showAlert(String message, String throwAway) {
+        JOptionPane.showMessageDialog(null, message);
+    }
 
     public void showAlert(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
-
 }
