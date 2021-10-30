@@ -48,10 +48,10 @@ class TransitDataTest {
        String badInput = "bad";
        String notAStopID = "9999";
 
-       assertEquals("3", TD.getRoutesThroughStop(normalInput));
-       assertEquals("1", TD.getRoutesThroughStop(otherNormalInput));
-       assertEquals("0", TD.getRoutesThroughStop(badInput));
-       assertEquals("0", TD.getRoutesThroughStop(notAStopID));
+       assertEquals("GOL, 30, 30X", TD.getRoutesThroughStop(normalInput));
+       assertEquals("30", TD.getRoutesThroughStop(otherNormalInput));
+       assertEquals("No routes found for stop Id: bad", TD.getRoutesThroughStop(badInput));
+       assertEquals("No routes found for stop Id: 9999", TD.getRoutesThroughStop(notAStopID));
     }
 
     // Tests isStops method with to check different headers
