@@ -9,7 +9,6 @@
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
-import DataObjects.GTFSData;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
