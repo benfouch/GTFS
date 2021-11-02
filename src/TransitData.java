@@ -56,7 +56,7 @@ public class TransitData implements Subject {
      * @param observer
      */
     public void detach(Observer observer) {
-
+        observers.remove(observer);
     }
 
     public void notifyObservers() {

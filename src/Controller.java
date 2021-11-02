@@ -126,7 +126,7 @@ public class Controller {
             filename = file.getName();
 
             if (!file.toString().endsWith(".txt")) {
-                showAlert("File must end in \".txt\"");
+                showAlert("File must end in \".txt\"", "Error");
             } else {
                 Path p = file.toPath();
                 try {
@@ -155,24 +155,24 @@ public class Controller {
         }
 
         if (!location.toString().endsWith(".txt")) {
-            showAlert("File must end in \".txt\"");
+            showAlert("File must end in \".txt\"", "Error");
         }
 
         String[] splitPath = location.toString().split("\\\\");
         try {
             TD.exportFile(location, splitPath[splitPath.length-1]);
         } catch (IOException e) {
-            showAlert("There was an error uploading that file");
+            showAlert("There was an error uploading that file", "Error");
         }
 
         return true;
     }
 
-    public void showAlert(String message, String throwAway) {
-        JOptionPane.showMessageDialog(null, message);
+    public void showAlert(String message, String header) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Alert");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
-
-    public void showAlert(String message) {
-        JOptionPane.showMessageDialog(null, message);
     }
-}
