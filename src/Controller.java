@@ -29,7 +29,6 @@ import java.util.Optional;
  */
 
 public class Controller {
-    private MainGUI m_MainGUI;
     private final TransitData TD = new TransitData();
     public TextArea stopsTextArea;
     public TextArea tripsTextArea;

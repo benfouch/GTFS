@@ -35,10 +35,6 @@ public class TransitTable implements Observer {
 		this.stoptimesTextArea = stoptimesTextArea;
 	}
 
-	public void createUserInterface(){
-
-	}
-
 	@Override
 	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
 							   List<GTFSData> stops, List<GTFSData> routes) {
@@ -80,10 +76,6 @@ public class TransitTable implements Observer {
 		//	Set routesOut box
 		routesTextArea.setText(routesOut);
 
-
-	}
-
-	public void updateDisplay(){
 
 	}
 

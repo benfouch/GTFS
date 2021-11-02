@@ -17,26 +17,6 @@ import java.util.List;
  */
 public class Map implements Observer {
 
-	public Map(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
-	public void createUserInterface(){
-
-	}
-
-	public void notifyObserver(){
-
-	}
-
-	public void updateDisplay(){
-
-	}
-
 	@Override
 	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes, List<GTFSData> stops, List<GTFSData> routes) {
 
