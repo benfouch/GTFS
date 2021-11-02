@@ -472,14 +472,18 @@ public class TransitData implements Subject {
         DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         String endTime = form.format(ending.toLocalTime());
-
+        ArrayList<String> list = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        for (GTFSData stopTime : timesList) {
+        for (GTFSData stopTime : stopsList) {
             if (stopTime.getValues()[3].equals(stop_id)) {
                 if (stopTime.getValues()[2].compareTo(currentTime) > -1 && stopTime.getValues()[2].compareTo(endTime) < 1) {
-                    sb.append(stopTime.getValues()[0]).append(", ").append(stopTime.getValues()[2]).append("\n");
+                    list.add(stopTime.getValues()[2] + " " + stopTime.getValues()[0]);
                 }
             }
+        }
+        Collections.sort(list);
+        for (String string : list) {
+            sb.append("departure time: ").append(string.substring(0, 8)).append(", trip id:").append(string.substring(8)).append("\n");
         }
         if (sb.toString().equals("")) {
             sb.append("No Matching Trips");
