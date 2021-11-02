@@ -9,7 +9,6 @@
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
-import DataObjects.GTFSData;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
@@ -34,10 +33,6 @@ public class TransitTable implements Observer {
 		this.routesTextArea = routesTextArea;
 		this.tripsTextArea = tripsTextArea;
 		this.stoptimesTextArea = stoptimesTextArea;
-	}
-
-	public void createUserInterface(){
-
 	}
 
 	@Override
@@ -81,10 +76,6 @@ public class TransitTable implements Observer {
 		//	Set routesOut box
 		routesTextArea.setText(routesOut);
 
-
-	}
-
-	public void updateDisplay(){
 
 	}
 

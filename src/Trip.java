@@ -18,23 +18,22 @@ import java.util.List;
  */
 public class Trip implements GTFSData {
 
-    public int block_id;
-    public int direction_id;
-    public String route_id;
-    public String service_id;
-    public String shape_id;
-    public String trip_headsign;
-    public float trip_id;
+    private final String block_id;
+    private final String direction_id;
+    private final String route_id;
+    private final String service_id;
+    private final String shape_id;
+    private final String trip_headsign;
+    private final String trip_id;
 
     public Trip(List<String> params) {
         int i = 0;
         this.route_id = params.get(i++);
         this.service_id = params.get(i++);
-        String trip_idString = !params.get(i).equals("") ? params.get(i).split("_")[0] + "." + params.get(i++).split("_")[1] : "";
-        this.trip_id = makeFloat(trip_idString);
+        this.trip_id = params.get(i++);
         this.trip_headsign = params.get(i++);
-        this.direction_id = (int) makeFloat(params.get(i++));
-        this.block_id = (int) makeFloat(params.get(i++));
+        this.direction_id = params.get(i++);
+        this.block_id = params.get(i++);
         this.shape_id = params.get(i);
     }
 
@@ -66,17 +65,7 @@ public class Trip implements GTFSData {
 
     @Override
     public String[] getValues() {
-        return new String[]{route_id, service_id, String.valueOf(trip_id), trip_headsign,
-                String.valueOf(direction_id), String.valueOf(block_id), shape_id};
+        return toString().split(",");
     }
 
-    /**
-     * A helper to make the data parsing a bit cleaner
-     *
-     * @param value the value to be parsed
-     * @return the parsed value
-     */
-    private float makeFloat(String value) {
-        return value.equals("") ? -1 : Float.parseFloat(value);
-    }
 }
