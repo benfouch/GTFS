@@ -53,6 +53,7 @@
                      <items>
                         <MenuItem fx:id="openTransitTable" mnemonicParsing="false" onAction="#openTransitTable" text="Open Transit Table" />
                         <MenuItem fx:id="openMap" mnemonicParsing="false" onAction="#openMap" text="Open Map" />
+                         <MenuItem mnemonicParsing="false" onAction="#displayTripDistances" text="Display distances of all trips" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Search">
@@ -60,6 +61,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#searchTripsThroughStop" text="Search Trips On A Stop_ID" />
                         <MenuItem mnemonicParsing="false" onAction="#searchRoutesThroughStop" text="Search Routes On A Stop_ID" />
                          <MenuItem mnemonicParsing="false" onAction="#searchNextTrips" text="Search Upcoming Trips" />
+                         <MenuItem mnemonicParsing="false" onAction="#displayAvSpeed" text="Search Average speed for a trip ID" />
                      </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">

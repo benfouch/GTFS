@@ -442,7 +442,9 @@ public class TransitData implements Subject {
         List<String> matchingRoutes = new LinkedList<>();
         StringBuilder outString = new StringBuilder();
 
-        if (!areFilesLoaded()) { return "Please load in all files first"; }
+        if (!areFilesLoaded()) {
+            return "Please load in all files first";
+        }
 
         for (GTFSData time : timesList) {
             if (time.getValues()[3].equals(stop_id)) {
@@ -465,4 +467,58 @@ public class TransitData implements Subject {
         return outString.length() > 0 ? outString.substring(0, outString.length() - 2) : "No routes found for stop Id: " + stop_id;
 
     }
+
+    public String getAvSpeed(String trip_id) {
+        return "";
+    }
+
+    public String getAllTripDistances(){
+        if (!areFilesLoaded()) {
+            return "Please load in all files first";
+        }
+        StringBuilder outString = new StringBuilder();
+        for (GTFSData trip : tripsList){
+            outString.append(getDistanceTrip(trip.getKey()));
+        }
+        return outString.toString();
+    }
+
+    public String getDistanceTrip(String trip_id) {
+        GTFSData[] stops = getStopsFromTrip(trip_id);
+        String lat1 = stops[0].getValues()[3];
+        String lon1 = stops[0].getValues()[4];
+        String lat2 = stops[1].getValues()[3];
+        String lon2 = stops[1].getValues()[4];
+        return HaversineDistance.findDistance(lat1, lat2, lon1, lon2);
+    }
+
+    /**
+     * Gets the first and last stop on the given trip
+     * This implementation does not look for the first in the sequence, because that data line may
+     * have been corrupted or missing in the provided files, so gets the first one it can find
+     * @param trip_id the trip_id to search on
+     * @return a array of the first and last stop
+     */
+    private GTFSData[] getStopsFromTrip(String trip_id) {
+        GTFSData firstStop = null;
+        GTFSData lastStop = null;
+
+        for (GTFSData time : timesList) {
+            if (time.getValues()[0].equals(trip_id)) {
+                if (firstStop == null) {
+                    firstStop = time;
+                }
+                if (lastStop == null) {
+                    lastStop = time;
+                }
+                firstStop = Integer.parseInt(firstStop.getValues()[4]) >
+                        Integer.parseInt(time.getValues()[4]) ? time : firstStop;
+                lastStop = Integer.parseInt(lastStop.getValues()[4]) <
+                        Integer.parseInt(time.getValues()[4]) ? time : lastStop;
+
+            }
+        }
+        return new GTFSData[]{firstStop, lastStop};
+    }
+
 }

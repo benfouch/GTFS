@@ -41,17 +41,17 @@ import java.util.Optional;
  */
 
 public class Controller {
-    private final TransitData TD = new TransitData();
-    private TextArea stopsTextArea;
-    private TextArea tripsTextArea;
-    private TextArea routesTextArea;
-    private TextArea stoptimesTextArea;
+    public final TransitData TD = new TransitData();
+    public TextArea stopsTextArea;
+    public TextArea tripsTextArea;
+    public TextArea routesTextArea;
+    public TextArea stoptimesTextArea;
 
     @FXML
-    private TableView transitTable;
+    public TableView transitTable;
 
     @FXML
-    private TextArea textArea;
+    public TextArea textArea;
 
     public boolean editTransitTable() {
         return false;
@@ -78,6 +78,23 @@ public class Controller {
             textArea.setText(TD.getTripsOnStop(result.get()));
         }
     }
+
+    /**
+     * handles finding the average speed for a trip
+     */
+    public void displayAvSpeed(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Average speed for a trip ID");
+        dialog.setHeaderText("Search Average speed for a trip ID");
+        dialog.setContentText("Please enter a trip_id:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(s -> textArea.setText(TD.getAvSpeed(s)));
+    }
+
+    public void displayTripDistances(){
+        textArea.setText(TD.getAllTripDistances());
+    }
+
 
     public void searchRoutesThroughStop() {
         TextInputDialog dialog = new TextInputDialog();
