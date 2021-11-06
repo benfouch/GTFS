@@ -42,16 +42,16 @@ import java.util.Optional;
 
 public class Controller {
     private final TransitData TD = new TransitData();
-    public TextArea stopsTextArea;
-    public TextArea tripsTextArea;
-    public TextArea routesTextArea;
-    public TextArea stoptimesTextArea;
+    private TextArea stopsTextArea;
+    private TextArea tripsTextArea;
+    private TextArea routesTextArea;
+    private TextArea stoptimesTextArea;
 
     @FXML
-    TableView transitTable;
+    private TableView transitTable;
 
     @FXML
-    TextArea textArea;
+    private TextArea textArea;
 
     public boolean editTransitTable() {
         return false;
