@@ -21,10 +21,7 @@
 
 import javax.naming.InvalidNameException;
 import javax.naming.NameNotFoundException;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.sql.Time;
 import java.time.format.DateTimeFormatter;
@@ -88,19 +85,20 @@ public class TransitData implements Subject {
      */
     public int downloadFiles(Path path) throws InvalidNameException, NameNotFoundException {
         gtfsMap = new HashMap<>();
-        gtfsList = new LinkedList<>();
+        gtfsList = new ArrayList<>();
         GTFSData newObj;
         List<String> splitLine;
         String[] pathList = path.toString().split("\\\\");
         String fileName = pathList[pathList.length - 1];
         int numSkipped = 0;
+        String line = "";
 
-        try (Scanner scanner = new Scanner(path)) {
-            if (!isValidHeader(fileName, scanner.nextLine())) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(String.valueOf(path))))) {
+            if (!isValidHeader(fileName, reader.readLine())) {
                 throw new InvalidNameException("Invalid Header");
             }
-            while (scanner.hasNextLine()) {
-                splitLine = Arrays.stream(scanner.nextLine().split(",")).collect(Collectors.toList());
+            while ((line = reader.readLine()) != null) {
+                splitLine = Arrays.stream(line.split(",")).collect(Collectors.toList());
                 splitLine.add("");
                 if (isValidLine(fileName, splitLine)) {
                     newObj = setNewObj(fileName, splitLine);

@@ -42,10 +42,10 @@ import java.util.Optional;
 
 public class Controller {
     public final TransitData TD = new TransitData();
-    public TextArea stopsTextArea;
-    public TextArea tripsTextArea;
-    public TextArea routesTextArea;
-    public TextArea stoptimesTextArea;
+    public ListView<String> stopsTextArea;
+    public ListView<String> tripsTextArea;
+    public ListView<String> routesTextArea;
+    public ListView<String> stoptimesTextArea;
 
     @FXML
     public TableView transitTable;

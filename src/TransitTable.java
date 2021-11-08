@@ -19,15 +19,22 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * @author zuberih
@@ -36,12 +43,12 @@ import java.util.List;
  */
 public class TransitTable implements Observer {
 
-	private final TextArea stopsTextArea;
-	private final TextArea tripsTextArea;
-	private final TextArea routesTextArea;
-	private final TextArea stoptimesTextArea;
+	private final ListView<String> stopsTextArea;
+	private final ListView<String> tripsTextArea;
+	private final ListView<String> routesTextArea;
+	private final ListView<String> stoptimesTextArea;
 
-	public TransitTable(TextArea stopsTextArea, TextArea tripsTextArea, TextArea routesTextArea, TextArea stoptimesTextArea){
+	public TransitTable(ListView<String> stopsTextArea, ListView<String> tripsTextArea, ListView<String> routesTextArea, ListView<String> stoptimesTextArea){
 		this.stopsTextArea = stopsTextArea;
 		this.routesTextArea = routesTextArea;
 		this.tripsTextArea = tripsTextArea;
@@ -51,45 +58,38 @@ public class TransitTable implements Observer {
 	@Override
 	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
 							   List<GTFSData> stops, List<GTFSData> routes) {
-		StringBuilder listText = new StringBuilder();
-		String tripsOut = "";
-		String stopTimesOut = "";
-		String stopsOut = "";
-		String routesOut = "";
+		ObservableList<String> outTimes = FXCollections.observableArrayList();
+		ObservableList<String> outStops = FXCollections.observableArrayList();
+		ObservableList<String> outTrips = FXCollections.observableArrayList();
+		ObservableList<String> outRoutes = FXCollections.observableArrayList();
 
 		if (trips != null){
 			for (GTFSData data : trips) {
-				tripsOut += data.toString() + "\n";
+				outTimes.add(data.toString() + ("\n"));
 			}
 		}
+
 		if (stopTimes != null){
 			for (GTFSData data : stopTimes) {
-				listText.append(data.toString()).append("\n");
-				//stopTimesOut += data.toString() + "\n";
+				outTimes.add(data.toString() + ("\n"));
 			}
 		}
+
 		if (stops != null){
 			for (GTFSData data : stops) {
-				stopsOut += data.toString() + "\n";
+				outStops.add(data.toString() + ("\n"));
 			}
 		}
+
 		if (routes != null){
 			for (GTFSData data : routes) {
-				routesOut += data.toString() + "\n";
+				outRoutes.add(data.toString() + ("\n"));
 			}
 		}
 
-		//	Set tripsOut box
-		tripsTextArea.setText(tripsOut);
-		//	Set stopTimesOut box
-		//stoptimesTextArea.setText(stopTimesOut);
-		stoptimesTextArea.setText(listText.toString());
-		//	Set stopsOut box
-		stopsTextArea.setText(stopsOut);
-		//	Set routesOut box
-		routesTextArea.setText(routesOut);
-
-
+		routesTextArea.setItems(outRoutes);
+		tripsTextArea.setItems(outTrips);
+		stoptimesTextArea.setItems(outTimes);
+		stopsTextArea.setItems(outStops);
 	}
-
 }
