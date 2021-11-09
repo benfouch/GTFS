@@ -470,23 +470,42 @@ public class TransitData implements Subject {
         return "";
     }
 
+    /**
+     * gets the distance of all of the trips
+     * @return a string to be displayed with all the values
+     */
     public String getAllTripDistances(){
         if (!areFilesLoaded()) {
             return "Please load in all files first";
         }
         StringBuilder outString = new StringBuilder();
-        for (GTFSData trip : tripsList){
-            outString.append(getDistanceTrip(trip.getKey()));
+        String lastTrip = "";
+        String lastStop = "";
+        double totalDistance = 0;
+        String thisStop;
+
+        for (GTFSData stopTime : timesList){
+            thisStop = stopTime.getValues()[3];
+            if (stopTime.getValues()[0].equals(lastTrip)){
+                totalDistance += Double.parseDouble(getDistanceTrip(new GTFSData[]{stops.get(thisStop), stops.get(lastStop)}));
+            } else {
+                if (!lastTrip.equals("")){
+                    outString.append(lastTrip).append(": ").append(totalDistance).append("\n");
+                }
+                totalDistance = 0;
+                lastTrip = stopTime.getValues()[0];
+            }
+            lastStop = thisStop;
         }
         return outString.toString();
     }
 
-    public String getDistanceTrip(String trip_id) {
-        GTFSData[] stops = getStopsFromTrip(trip_id);
+    public String getDistanceTrip(GTFSData[] stops) {
         String lat1 = stops[0].getValues()[3];
         String lon1 = stops[0].getValues()[4];
         String lat2 = stops[1].getValues()[3];
         String lon2 = stops[1].getValues()[4];
+
         return HaversineDistance.findDistance(lat1, lat2, lon1, lon2);
     }
 

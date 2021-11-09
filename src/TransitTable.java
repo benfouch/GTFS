@@ -65,7 +65,7 @@ public class TransitTable implements Observer {
 
 		if (trips != null){
 			for (GTFSData data : trips) {
-				outTimes.add(data.toString() + ("\n"));
+				outTrips.add(data.toString() + ("\n"));
 			}
 		}
 
