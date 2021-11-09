@@ -42,6 +42,9 @@ public class StopTime implements GTFSData{
 
 	public StopTime(List<String> params) {
 		int i = 0;
+		while (params.size() <= 8){
+			params.add("");
+		}
 		this.trip_id = params.get(i++);
 		this.arrival_time = params.get(i++);
 		this.departure_time = params.get(i++);
