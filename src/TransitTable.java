@@ -36,10 +36,10 @@ import java.util.List;
  */
 public class TransitTable implements Observer {
 
-	public TextArea stopsTextArea;
-	public TextArea tripsTextArea;
-	public TextArea routesTextArea;
-	public TextArea stoptimesTextArea;
+	private final TextArea stopsTextArea;
+	private final TextArea tripsTextArea;
+	private final TextArea routesTextArea;
+	private final TextArea stoptimesTextArea;
 
 	public TransitTable(TextArea stopsTextArea, TextArea tripsTextArea, TextArea routesTextArea, TextArea stoptimesTextArea){
 		this.stopsTextArea = stopsTextArea;
