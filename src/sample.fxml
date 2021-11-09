@@ -60,6 +60,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#searchTripsThroughStop" text="Search Trips On A Stop_ID" />
                         <MenuItem mnemonicParsing="false" onAction="#searchRoutesThroughStop" text="Search Routes On A Stop_ID" />
                          <MenuItem mnemonicParsing="false" onAction="#searchNextTrips" text="Search Upcoming Trips" />
+                         <MenuItem mnemonicParsing="false" onAction="#searchStopsWithRouteId" text="Search Stops On A Route_ID" />
+                         <MenuItem mnemonicParsing="false" onAction="#searchTripsWithRouteId" text="Search Upcoming Trips On A Route_ID" />
                      </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
