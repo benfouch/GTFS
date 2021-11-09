@@ -28,6 +28,6 @@ import java.util.List;
  * @created 07-Oct-2021 11:02:17 AM
  */
 public interface Observer {
-    void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
-                        List<GTFSData> stops, List<GTFSData> routes);
+    void notifyObserver(String trips,String stopTimes,
+                        String stops, String routes);
 }

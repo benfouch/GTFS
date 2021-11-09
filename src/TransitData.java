@@ -40,12 +40,16 @@ public class TransitData implements Subject {
     //region vars
     private HashMap<Object, GTFSData> routes;
     private List<GTFSData> routeList;
+    private StringBuilder routesOut = new StringBuilder();
     private HashMap<Object, GTFSData> stops;
     private List<GTFSData> stopsList;
+    private StringBuilder stopsOut = new StringBuilder();
     private HashMap<Object, GTFSData> stopTimes;
     private List<GTFSData> timesList;
+    private StringBuilder stopTimesOut = new StringBuilder();
     private HashMap<Object, GTFSData> trips;
     private List<GTFSData> tripsList;
+    private StringBuilder tripsOut = new StringBuilder();
     private HashMap<Object, GTFSData> gtfsMap;
     private List<GTFSData> gtfsList;
     private final List<String> loadedStructures = new LinkedList<>();
@@ -74,7 +78,8 @@ public class TransitData implements Subject {
 
     public void notifyObservers() {
         for (Observer ob : observers) {
-            ob.notifyObserver(tripsList, timesList, stopsList, routeList);
+            ob.notifyObserver(tripsOut.toString(), stopTimesOut.toString(),
+                                stopsOut.toString(), routesOut.toString());
         }
     }
 
@@ -100,12 +105,24 @@ public class TransitData implements Subject {
                 throw new InvalidNameException("Invalid Header");
             }
             while (scanner.hasNextLine()) {
-                splitLine = Arrays.stream(scanner.nextLine().split(",")).collect(Collectors.toList());
+                splitLine = Arrays.stream(scanner.nextLine().split(",(?! )")).collect(Collectors.toList());
                 splitLine.add("");
                 if (isValidLine(fileName, splitLine)) {
                     newObj = setNewObj(fileName, splitLine);
                     gtfsMap.put(newObj.getKey(), newObj);
                     gtfsList.add(newObj);
+                    if(fileName.equals("stops.txt")){
+                        stopsOut.append(splitLine).append("\n");
+                    }
+                    if(fileName.equals("trips.txt")){
+                        tripsOut.append(splitLine).append("\n");
+                    }
+                    if(fileName.equals("stop_times.txt")){
+                        stopTimesOut.append(splitLine).append("\n");
+                    }
+                    if(fileName.equals("routes.txt")){
+                        routesOut.append(splitLine).append("\n");
+                    }
                 } else {
                     numSkipped++;
                 }
@@ -464,5 +481,90 @@ public class TransitData implements Subject {
 
         return outString.length() > 0 ? outString.substring(0, outString.length() - 2) : "No routes found for stop Id: " + stop_id;
 
+    }
+
+    public String getStopsThroughRouteID(String route_id) {
+        ArrayList<GTFSData> trips = new ArrayList<>();
+        ArrayList<String> stops = new ArrayList<>();
+
+        StringBuilder stopIds = new StringBuilder();
+
+        boolean routeExists = false;
+        for (GTFSData route : routeList) {
+            if (route.getValues()[0].equals(route_id)) {
+                routeExists = true;
+            }
+        }
+
+        if (routeExists) {
+            for (GTFSData trip : tripsList) {
+                if (trip.getValues()[0].equals(route_id)) {
+                    trips.add(trip);
+                }
+            }
+
+            for (GTFSData stopTime : timesList) {
+                for (GTFSData trip : trips) {
+                    if (trip.getValues()[2].equals(stopTime.getValues()[0])) {
+                        stops.add(stopTime.getValues()[3]);
+                    }
+                }
+            }
+        } else {
+            return route_id + " is not a valid route.";
+        }
+
+        if (!stops.isEmpty()) {
+            stopIds = new StringBuilder("Stop_ids on route " + route_id + " :\n");
+            for (String stopId : stops) {
+                stopIds.append(stopId).append("\n");
+            }
+        } else {
+            stopIds = new StringBuilder("There are no stop_ids correlated with the given route_id.");
+        }
+
+        return stopIds.toString();
+    }
+
+    public String getFutureTripsThroughRouteID(String route_id, String currentTime){
+        ArrayList<String> trips = new ArrayList<>();
+
+        Time current = Time.valueOf(currentTime);
+
+        StringBuilder tripIds = new StringBuilder();
+
+        boolean routeExists = false;
+        for (GTFSData route : routeList) {
+            if (route.getValues()[0].equals(route_id)) {
+                routeExists = true;
+            }
+        }
+
+        if (routeExists) {
+            for (GTFSData trip : tripsList) {
+                if (trip.getValues()[0].equals(route_id)) {
+                    if (!trips.contains(trip.getValues()[2])) {
+                        for (GTFSData stopTime : timesList) {
+                            if (stopTime.getValues()[0].equals(trip.getValues()[2]) && Time.valueOf(stopTime.getValues()[2]).compareTo(current) > -1) {
+                                trips.add(trip.getValues()[2]);
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            return route_id + " is not a valid route.";
+        }
+
+        if (!trips.isEmpty()) {
+            tripIds = new StringBuilder("Trip_ids on route " + route_id + ":\n");
+            for (String tripId : trips) {
+                tripIds.append(tripId).append("\n");
+            }
+        } else {
+            tripIds = new StringBuilder("No trips on route " + route_id + ".");
+        }
+
+        return tripIds.toString();
     }
 }

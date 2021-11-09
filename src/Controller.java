@@ -187,4 +187,29 @@ public class Controller {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public void searchTripsWithRouteId() {
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime current = LocalTime.now();
+
+        TextInputDialog input = new TextInputDialog();
+        input.setTitle("Route_ID");
+        input.setHeaderText("Enter a Route_ID");
+        input.setContentText("Please enter a Route_ID:");
+        Optional<String> result = input.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getFutureTripsThroughRouteID(result.get(), form.format(current)));
+        }
     }
+
+    public void searchStopsWithRouteId() {
+        TextInputDialog input = new TextInputDialog();
+        input.setTitle("Route_ID");
+        input.setHeaderText("Enter a Route_ID");
+        input.setContentText("Please enter a Route_ID:");
+        Optional<String> result = input.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getStopsThroughRouteID(result.get()));
+        }
+    }
+}
