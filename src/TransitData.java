@@ -197,6 +197,12 @@ public class TransitData implements Subject {
         return false;
     }
 
+    /**
+     * checks if a GTFS is valid based on its first line
+     * @param fileName - one of four types of gtfs files
+     * @param firstLine - the first line of the file to be checked for validity
+     * @return - true if the file is valid and false if the file is invalid
+     */
     private boolean isValidHeader(String fileName, String firstLine) {
         switch (fileName) {
             case "routes.txt":
@@ -467,6 +473,12 @@ public class TransitData implements Subject {
 
     }
 
+    /**
+     * gets and returns all stop ids related to a given route id
+     * @param route_id - the route id to be searched for
+     * @return - a string of all stop ids related to the given route id
+     * @author - Ethan White
+     */
     public String getStopsThroughRouteID(String route_id) {
         ArrayList<GTFSData> trips = new ArrayList<>();
         ArrayList<String> stops = new ArrayList<>();
@@ -510,6 +522,13 @@ public class TransitData implements Subject {
         return stopIds.toString();
     }
 
+    /**
+     * gets and returns all trips related to a route id that are departing after the current time
+     * @param route_id - the route id to be searched for
+     * @param currentTime - the current time
+     * @return - a string of all the trip ids related to the route id happening later
+     * @author - Ethan White
+     */
     public String getFutureTripsThroughRouteID(String route_id, String currentTime) {
         ArrayList<String> trips = new ArrayList<>();
 
@@ -545,6 +564,11 @@ public class TransitData implements Subject {
         return tripIds.toString();
     }
 
+    /**
+     * displays the distance of each trip alongside the corresponding trip_id
+     * @return - returns a string of all trips and their distances
+     * @author - Ben Fouch
+     */
     public String getAllTripDistances() {
         if (!areFilesLoaded()) {
             return "Please load in all files first";
@@ -571,6 +595,12 @@ public class TransitData implements Subject {
         return outString.toString();
     }
 
+    /**
+     * calculates the distance between two stops
+     * @param stops - an array of two stop objects
+     * @return - returns a string of the distance between the two stops
+     * @author - Ben Fouch
+     */
     public String getDistanceTrip(GTFSData[] stops) {
         String lat1 = stops[0].getValues()[3];
         String lon1 = stops[0].getValues()[4];
