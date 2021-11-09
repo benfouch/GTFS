@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 
 <!--/*
@@ -34,7 +25,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */-->
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="867.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
       <BorderPane prefHeight="640.0" prefWidth="867.0">
          <top>
@@ -63,7 +54,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#searchTripsThroughStop" text="Search Trips On A Stop_ID" />
                         <MenuItem mnemonicParsing="false" onAction="#searchRoutesThroughStop" text="Search Routes On A Stop_ID" />
                          <MenuItem mnemonicParsing="false" onAction="#searchNextTrips" text="Search Upcoming Trips" />
-                         <MenuItem mnemonicParsing="false" onAction="#displayAvSpeed" text="Search Average speed for a trip ID" />
+                         <MenuItem mnemonicParsing="false" onAction="#searchStopsWithRouteId" text="Search Stops On A Route_ID" />
+                         <MenuItem mnemonicParsing="false" onAction="#searchTripsWithRouteId" text="Search Upcoming Trips On A Route_ID" />
                      </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
