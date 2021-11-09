@@ -105,7 +105,7 @@ public class TransitData implements Subject {
                 throw new InvalidNameException("Invalid Header");
             }
             while (scanner.hasNextLine()) {
-                splitLine = Arrays.stream(scanner.nextLine().split(",")).collect(Collectors.toList());
+                splitLine = Arrays.stream(scanner.nextLine().split(",(?! )")).collect(Collectors.toList());
                 splitLine.add("");
                 if (isValidLine(fileName, splitLine)) {
                     newObj = setNewObj(fileName, splitLine);
