@@ -4,8 +4,20 @@
  * Lab 5
  * Name: Team F
  * Created: 07-Oct-2021
+ *
+ *            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *                    Version 2, December 2004
+ *
+ * Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ * Everyone is permitted to copy and distribute verbatim or modified
+ * copies of this license document, and changing it is allowed as long
+ * as the name is changed.
+ *
+ *            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ * TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *
+ * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
-
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -29,17 +41,17 @@ import java.util.Optional;
  */
 
 public class Controller {
-    private final TransitData TD = new TransitData();
-    public TextArea stopsTextArea;
-    public TextArea tripsTextArea;
-    public TextArea routesTextArea;
-    public TextArea stoptimesTextArea;
+    public final TransitData TD = new TransitData();
+    public ListView<String> stopsTextArea;
+    public ListView<String> tripsTextArea;
+    public ListView<String> routesTextArea;
+    public ListView<String> stoptimesTextArea;
 
     @FXML
-    TableView transitTable;
+    public TableView transitTable;
 
     @FXML
-    TextArea textArea;
+    public TextArea textArea;
 
     public boolean editTransitTable() {
         return false;
@@ -66,6 +78,23 @@ public class Controller {
             textArea.setText(TD.getTripsOnStop(result.get()));
         }
     }
+
+    /**
+     * handles finding the average speed for a trip
+     */
+    public void displayAvSpeed(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Average speed for a trip ID");
+        dialog.setHeaderText("Search Average speed for a trip ID");
+        dialog.setContentText("Please enter a trip_id:");
+        Optional<String> result = dialog.showAndWait();
+        //result.ifPresent(s -> textArea.setText(TD.getAvSpeed(s)));
+    }
+
+    public void displayTripDistances(){
+        textArea.setText(TD.getAllTripDistances());
+    }
+
 
     public void searchRoutesThroughStop() {
         TextInputDialog dialog = new TextInputDialog();
@@ -175,4 +204,29 @@ public class Controller {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public void searchTripsWithRouteId() {
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime current = LocalTime.now();
+
+        TextInputDialog input = new TextInputDialog();
+        input.setTitle("Route_ID");
+        input.setHeaderText("Enter a Route_ID");
+        input.setContentText("Please enter a Route_ID:");
+        Optional<String> result = input.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getFutureTripsThroughRouteID(result.get(), form.format(current)));
+        }
     }
+
+    public void searchStopsWithRouteId() {
+        TextInputDialog input = new TextInputDialog();
+        input.setTitle("Route_ID");
+        input.setHeaderText("Enter a Route_ID");
+        input.setContentText("Please enter a Route_ID:");
+        Optional<String> result = input.showAndWait();
+        if (result.isPresent()){
+            textArea.setText(TD.getStopsThroughRouteID(result.get()));
+        }
+    }
+}

@@ -4,14 +4,24 @@
  * Lab 5
  * Name: Team F
  * Created: 07-Oct-2021
+ *
+ *            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *                    Version 2, December 2004
+ *
+ * Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ * Everyone is permitted to copy and distribute verbatim or modified
+ * copies of this license document, and changing it is allowed as long
+ * as the name is changed.
+ *
+ *            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ * TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *
+ * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
 import javax.naming.InvalidNameException;
 import javax.naming.NameNotFoundException;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.sql.Time;
 import java.time.format.DateTimeFormatter;
@@ -75,24 +85,26 @@ public class TransitData implements Subject {
      */
     public int downloadFiles(Path path) throws InvalidNameException, NameNotFoundException {
         gtfsMap = new HashMap<>();
-        gtfsList = new LinkedList<>();
+        gtfsList = new ArrayList<>();
         GTFSData newObj;
         List<String> splitLine;
         String[] pathList = path.toString().split("\\\\");
         String fileName = pathList[pathList.length - 1];
         int numSkipped = 0;
+        String line = "";
 
-        try (Scanner scanner = new Scanner(path)) {
-            if (!isValidHeader(fileName, scanner.nextLine())) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(String.valueOf(path))))) {
+            if (!isValidHeader(fileName, reader.readLine())) {
                 throw new InvalidNameException("Invalid Header");
             }
-            while (scanner.hasNextLine()) {
-                splitLine = Arrays.stream(scanner.nextLine().split(",")).collect(Collectors.toList());
+            while ((line = reader.readLine()) != null) {
+                splitLine = Arrays.stream(line.split(",")).collect(Collectors.toList());
                 splitLine.add("");
                 if (isValidLine(fileName, splitLine)) {
                     newObj = setNewObj(fileName, splitLine);
                     gtfsMap.put(newObj.getKey(), newObj);
                     gtfsList.add(newObj);
+
                 } else {
                     numSkipped++;
                 }
@@ -429,7 +441,9 @@ public class TransitData implements Subject {
         List<String> matchingRoutes = new LinkedList<>();
         StringBuilder outString = new StringBuilder();
 
-        if (!areFilesLoaded()) { return "Please load in all files first"; }
+        if (!areFilesLoaded()) {
+            return "Please load in all files first";
+        }
 
         for (GTFSData time : timesList) {
             if (time.getValues()[3].equals(stop_id)) {
@@ -452,4 +466,148 @@ public class TransitData implements Subject {
         return outString.length() > 0 ? outString.substring(0, outString.length() - 2) : "No routes found for stop Id: " + stop_id;
 
     }
+
+    public String getStopsThroughRouteID(String route_id) {
+        ArrayList<GTFSData> trips = new ArrayList<>();
+        ArrayList<String> stops = new ArrayList<>();
+
+        StringBuilder stopIds = new StringBuilder();
+
+        boolean routeExists = false;
+        for (GTFSData route : routeList) {
+            if (route.getValues()[0].equals(route_id)) {
+                routeExists = true;
+            }
+        }
+
+        if (routeExists) {
+            for (GTFSData trip : tripsList) {
+                if (trip.getValues()[0].equals(route_id)) {
+                    trips.add(trip);
+                }
+            }
+
+            for (GTFSData stopTime : timesList) {
+                for (GTFSData trip : trips) {
+                    if (trip.getValues()[2].equals(stopTime.getValues()[0])) {
+                        stops.add(stopTime.getValues()[3]);
+                    }
+                }
+            }
+        } else {
+            return route_id + " is not a valid route.";
+        }
+
+        if (!stops.isEmpty()) {
+            stopIds = new StringBuilder("Stop_ids on route " + route_id + " :\n");
+            for (String stopId : stops) {
+                stopIds.append(stopId).append("\n");
+            }
+        } else {
+            stopIds = new StringBuilder("There are no stop_ids correlated with the given route_id.");
+        }
+
+        return stopIds.toString();
+    }
+
+    public String getFutureTripsThroughRouteID(String route_id, String currentTime) {
+        ArrayList<String> trips = new ArrayList<>();
+
+        Time current = Time.valueOf(currentTime);
+
+        StringBuilder tripIds;
+
+        if (!routes.containsKey(route_id)) {
+            return route_id + " is not a valid route.";
+        }
+
+        for (GTFSData trip : tripsList) {
+            if (trip.getValues()[0].equals(route_id) && !trips.contains(trip.getValues()[2])) {
+                for (GTFSData stopTime : timesList) {
+                    if (stopTime.getValues()[0].equals(trip.getValues()[2]) && Time.valueOf(stopTime.getValues()[2]).compareTo(current) > -1) {
+                        trips.add(trip.getValues()[2]);
+                    }
+                }
+
+            }
+        }
+
+
+        if (!trips.isEmpty()) {
+            tripIds = new StringBuilder("Trip_ids on route " + route_id + ":\n");
+            for (String tripId : trips) {
+                tripIds.append(tripId).append("\n");
+            }
+        } else {
+            tripIds = new StringBuilder("No trips on route " + route_id + ".");
+        }
+
+        return tripIds.toString();
+    }
+
+    public String getAllTripDistances() {
+        if (!areFilesLoaded()) {
+            return "Please load in all files first";
+        }
+        StringBuilder outString = new StringBuilder();
+        String lastTrip = "";
+        String lastStop = "";
+        double totalDistance = 0;
+        String thisStop;
+
+        for (GTFSData stopTime : timesList) {
+            thisStop = stopTime.getValues()[3];
+            if (stopTime.getValues()[0].equals(lastTrip)) {
+                totalDistance += Double.parseDouble(getDistanceTrip(new GTFSData[]{stops.get(thisStop), stops.get(lastStop)}));
+            } else {
+                if (!lastTrip.equals("")) {
+                    outString.append(lastTrip).append(": ").append(totalDistance).append("\n");
+                }
+                totalDistance = 0;
+                lastTrip = stopTime.getValues()[0];
+            }
+            lastStop = thisStop;
+        }
+        return outString.toString();
+    }
+
+    public String getDistanceTrip(GTFSData[] stops) {
+        String lat1 = stops[0].getValues()[3];
+        String lon1 = stops[0].getValues()[4];
+        String lat2 = stops[1].getValues()[3];
+        String lon2 = stops[1].getValues()[4];
+
+        return HaversineDistance.findDistance(lat1, lat2, lon1, lon2);
+    }
+
+    /**
+     * Gets the first and last stop on the given trip
+     * This implementation does not look for the first in the sequence, because that data line may
+     * have been corrupted or missing in the provided files, so gets the first one it can find
+     *
+     * @param trip_id the trip_id to search on
+     * @return a array of the first and last stop
+     */
+    private GTFSData[] getStopsFromTrip(String trip_id) {
+        GTFSData firstStop = null;
+        GTFSData lastStop = null;
+
+        for (GTFSData time : timesList) {
+            if (time.getValues()[0].equals(trip_id)) {
+                if (firstStop == null) {
+                    firstStop = time;
+                }
+                if (lastStop == null) {
+                    lastStop = time;
+                }
+                firstStop = Integer.parseInt(firstStop.getValues()[4]) >
+                        Integer.parseInt(time.getValues()[4]) ? time : firstStop;
+                lastStop = Integer.parseInt(lastStop.getValues()[4]) <
+                        Integer.parseInt(time.getValues()[4]) ? time : lastStop;
+
+            }
+        }
+        return new GTFSData[]{firstStop, lastStop};
+    }
+
 }

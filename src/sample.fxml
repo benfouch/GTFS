@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="867.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller">
+
+<!--/*
+ * Course: CS2030
+ * Fall 2021
+ * Lab 5
+ * Name: Team F
+ * Created: 07-Oct-2021
+ *
+ *            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *                    Version 2, December 2004
+ *
+ * Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ * Everyone is permitted to copy and distribute verbatim or modified
+ * copies of this license document, and changing it is allowed as long
+ * as the name is changed.
+ *
+ *            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ * TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *
+ * 0. You just DO WHAT THE FUCK YOU WANT TO.
+ */-->
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
       <BorderPane prefHeight="640.0" prefWidth="867.0">
          <top>
@@ -31,7 +45,7 @@
                   <Menu mnemonicParsing="false" text="View">
                      <items>
                         <MenuItem fx:id="openTransitTable" mnemonicParsing="false" onAction="#openTransitTable" text="Open Transit Table" />
-                        <MenuItem fx:id="openMap" mnemonicParsing="false" onAction="#openMap" text="Open Map" />
+                         <MenuItem mnemonicParsing="false" onAction="#displayTripDistances" text="Display distances of all trips" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Search">
@@ -39,6 +53,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#searchTripsThroughStop" text="Search Trips On A Stop_ID" />
                         <MenuItem mnemonicParsing="false" onAction="#searchRoutesThroughStop" text="Search Routes On A Stop_ID" />
                          <MenuItem mnemonicParsing="false" onAction="#searchNextTrips" text="Search Upcoming Trips" />
+                         <MenuItem mnemonicParsing="false" onAction="#searchStopsWithRouteId" text="Search Stops On A Route_ID" />
+                         <MenuItem mnemonicParsing="false" onAction="#searchTripsWithRouteId" text="Search Upcoming Trips On A Route_ID" />
                      </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -59,7 +75,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextArea fx:id="stopsTextArea" prefHeight="588.0" prefWidth="566.0" />
+                                    <ListView fx:id="stopsTextArea" prefHeight="588.0" prefWidth="566.0" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -68,7 +84,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextArea fx:id="tripsTextArea" prefHeight="587.0" prefWidth="566.0" />
+                                    <ListView fx:id="tripsTextArea" prefHeight="587.0" prefWidth="566.0" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -77,7 +93,7 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextArea fx:id="routesTextArea" prefHeight="586.0" prefWidth="566.0" />
+                                    <ListView fx:id="routesTextArea" prefHeight="586.0" prefWidth="566.0" />
                                  </children>
                               </AnchorPane>
                           </content>
@@ -86,7 +102,7 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextArea fx:id="stoptimesTextArea" prefHeight="586.0" prefWidth="567.0" />
+                                    <ListView fx:id="stoptimesTextArea" prefHeight="586.0" prefWidth="567.0" />
                                  </children>
                               </AnchorPane>
                           </content>
