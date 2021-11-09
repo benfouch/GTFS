@@ -30,7 +30,7 @@ import java.util.List;
 public class Map implements Observer {
 
 	@Override
-	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes, List<GTFSData> stops, List<GTFSData> routes) {
+	public void notifyObserver(String trips, String stopTimes, String stops, String routes) {
 
 	}
 }

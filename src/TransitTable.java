@@ -49,45 +49,17 @@ public class TransitTable implements Observer {
 	}
 
 	@Override
-	public void notifyObserver(List<GTFSData> trips, List<GTFSData> stopTimes,
-							   List<GTFSData> stops, List<GTFSData> routes) {
-		StringBuilder listText = new StringBuilder();
-		String tripsOut = "";
-		String stopTimesOut = "";
-		String stopsOut = "";
-		String routesOut = "";
-
-		if (trips != null){
-			for (GTFSData data : trips) {
-				tripsOut += data.toString() + "\n";
-			}
-		}
-		if (stopTimes != null){
-			for (GTFSData data : stopTimes) {
-				listText.append(data.toString()).append("\n");
-				//stopTimesOut += data.toString() + "\n";
-			}
-		}
-		if (stops != null){
-			for (GTFSData data : stops) {
-				stopsOut += data.toString() + "\n";
-			}
-		}
-		if (routes != null){
-			for (GTFSData data : routes) {
-				routesOut += data.toString() + "\n";
-			}
-		}
+	public void notifyObserver(String trips, String stopTimes,
+							   String stops, String routes) {
 
 		//	Set tripsOut box
-		tripsTextArea.setText(tripsOut);
+		tripsTextArea.setText(trips);
 		//	Set stopTimesOut box
-		//stoptimesTextArea.setText(stopTimesOut);
-		stoptimesTextArea.setText(listText.toString());
+		stoptimesTextArea.setText(stopTimes);
 		//	Set stopsOut box
-		stopsTextArea.setText(stopsOut);
+		stopsTextArea.setText(stops);
 		//	Set routesOut box
-		routesTextArea.setText(routesOut);
+		routesTextArea.setText(routes);
 
 
 	}

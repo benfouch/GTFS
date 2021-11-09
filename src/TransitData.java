@@ -40,12 +40,16 @@ public class TransitData implements Subject {
     //region vars
     private HashMap<Object, GTFSData> routes;
     private List<GTFSData> routeList;
+    private StringBuilder routesOut = new StringBuilder();
     private HashMap<Object, GTFSData> stops;
     private List<GTFSData> stopsList;
+    private StringBuilder stopsOut = new StringBuilder();
     private HashMap<Object, GTFSData> stopTimes;
     private List<GTFSData> timesList;
+    private StringBuilder stopTimesOut = new StringBuilder();
     private HashMap<Object, GTFSData> trips;
     private List<GTFSData> tripsList;
+    private StringBuilder tripsOut = new StringBuilder();
     private HashMap<Object, GTFSData> gtfsMap;
     private List<GTFSData> gtfsList;
     private final List<String> loadedStructures = new LinkedList<>();
@@ -74,7 +78,8 @@ public class TransitData implements Subject {
 
     public void notifyObservers() {
         for (Observer ob : observers) {
-            ob.notifyObserver(tripsList, timesList, stopsList, routeList);
+            ob.notifyObserver(tripsOut.toString(), stopTimesOut.toString(),
+                                stopsOut.toString(), routesOut.toString());
         }
     }
 
@@ -100,12 +105,24 @@ public class TransitData implements Subject {
                 throw new InvalidNameException("Invalid Header");
             }
             while (scanner.hasNextLine()) {
-                splitLine = Arrays.stream(scanner.nextLine().split(",")).collect(Collectors.toList());
+                splitLine = Arrays.stream(scanner.nextLine().split(",(?! )")).collect(Collectors.toList());
                 splitLine.add("");
                 if (isValidLine(fileName, splitLine)) {
                     newObj = setNewObj(fileName, splitLine);
                     gtfsMap.put(newObj.getKey(), newObj);
                     gtfsList.add(newObj);
+                    if(fileName.equals("stops.txt")){
+                        stopsOut.append(splitLine).append("\n");
+                    }
+                    if(fileName.equals("trips.txt")){
+                        tripsOut.append(splitLine).append("\n");
+                    }
+                    if(fileName.equals("stop_times.txt")){
+                        stopTimesOut.append(splitLine).append("\n");
+                    }
+                    if(fileName.equals("routes.txt")){
+                        routesOut.append(splitLine).append("\n");
+                    }
                 } else {
                     numSkipped++;
                 }
