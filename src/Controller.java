@@ -88,7 +88,7 @@ public class Controller {
         dialog.setHeaderText("Search Average speed for a trip ID");
         dialog.setContentText("Please enter a trip_id:");
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(s -> textArea.setText(TD.getAvSpeed(s)));
+        //result.ifPresent(s -> textArea.setText(TD.getAvSpeed(s)));
     }
 
     public void displayTripDistances(){

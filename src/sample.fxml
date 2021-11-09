@@ -45,7 +45,6 @@
                   <Menu mnemonicParsing="false" text="View">
                      <items>
                         <MenuItem fx:id="openTransitTable" mnemonicParsing="false" onAction="#openTransitTable" text="Open Transit Table" />
-                        <MenuItem fx:id="openMap" mnemonicParsing="false" onAction="#openMap" text="Open Map" />
                          <MenuItem mnemonicParsing="false" onAction="#displayTripDistances" text="Display distances of all trips" />
                      </items>
                   </Menu>
